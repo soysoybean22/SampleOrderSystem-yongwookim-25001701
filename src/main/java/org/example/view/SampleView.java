@@ -94,7 +94,7 @@ public final class SampleView {
             }
 
             paginator.printNavBar();
-            String input = ConsoleHelper.readLine("  [P/N] 페이지 이동, [0] 위로 > ");
+            String input = ConsoleHelper.readLine("                                             [P/N] 페이지 이동, [0] 위로 > ");
             if (input.equals("0"))                return;
             if (input.equalsIgnoreCase("N"))      paginator.nextPage();
             else if (input.equalsIgnoreCase("P")) paginator.prevPage();
@@ -142,7 +142,7 @@ public final class SampleView {
             }
 
             paginator.printNavBar();
-            String input = ConsoleHelper.readLine("  [P/N] 페이지 이동, [0] 위로 > ");
+            String input = ConsoleHelper.readLine("                                             [P/N] 페이지 이동, [0] 위로 > ");
             if (input.equals("0"))                return;
             if (input.equalsIgnoreCase("N"))      paginator.nextPage();
             else if (input.equalsIgnoreCase("P")) paginator.prevPage();

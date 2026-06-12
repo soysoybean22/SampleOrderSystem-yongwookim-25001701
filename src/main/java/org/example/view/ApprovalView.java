@@ -40,8 +40,8 @@ public final class ApprovalView {
             printReservedList(paginator.currentItems(), paginator);
 
             String prompt = paginator.needsPagination()
-                ? "번호 선택 또는 [P/N] 페이지 이동, [0] 위로 > "
-                : "승인할 번호 > ";
+                ? "                                     번호 선택 또는 [P/N] 페이지 이동, [0] 위로 > "
+                : "                                                     승인할 번호 > ";
             String input = ConsoleHelper.readLine(prompt);
 
             if (input.equals("0")) return;
@@ -72,9 +72,10 @@ public final class ApprovalView {
         ConsoleHelper.println("");
         ConsoleHelper.printTableTop();
         ConsoleHelper.println("│  " + ConsoleHelper.padRight("번호", 5)
-            + ConsoleHelper.padRight("주문번호", 22)
-            + " " + ConsoleHelper.padRight("고객명", 54)
-            + " " + ConsoleHelper.padRight("수량", 13) + "                         │");
+            + ConsoleHelper.padRight("주문번호", 26)
+            + " " + ConsoleHelper.padRight("시료명", 36)
+            + " " + ConsoleHelper.padRight("고객명", 36)
+            + " " + ConsoleHelper.padRight("수량", 8) + "  │");
         ConsoleHelper.printTableDivider();
         for (int i = 0; i < orders.size(); i++) {
             Order o = orders.get(i);
@@ -82,12 +83,12 @@ public final class ApprovalView {
                 .filter(s -> s.getSampleId().equals(o.getSampleId()))
                 .map(Sample::getName)
                 .findFirst().orElse(o.getSampleId());
-            System.out.printf("│  [%d]  %-22s %s %5d ea                         │%n",
+            System.out.printf("│  [%d]  %-26s %s %s %5d ea  │%n",
                 i + 1, o.getOrderId(),
-                ConsoleHelper.padRight(o.getCustomerName(), 54), o.getQuantity());
-            ConsoleHelper.println("│        시료: " + ConsoleHelper.padRight(sampleName, 104) + "│");
+                ConsoleHelper.padRight(sampleName, 36),
+                ConsoleHelper.padRight(o.getCustomerName(), 36),
+                o.getQuantity());
         }
-        ConsoleHelper.println("│  " + ConsoleHelper.padRight("[0]  위로", 116) + "│");
         ConsoleHelper.printTableBottom();
         if (paginator.needsPagination()) {
             paginator.printNavBar();

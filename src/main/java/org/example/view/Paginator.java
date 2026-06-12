@@ -37,6 +37,6 @@ public final class Paginator<T> {
         String prev = hasPrev() ? AnsiColor.color("◀ 이전 [P]", AnsiColor.CYAN) : "          ";
         String next = hasNext() ? AnsiColor.color("다음 [N] ▶", AnsiColor.CYAN) : "          ";
         ConsoleHelper.println("");
-        ConsoleHelper.println("  " + prev + "    " + pageInfo() + "    " + next);
+        ConsoleHelper.println("                                        " + prev + "    " + pageInfo() + "    " + next);
     }
 }
