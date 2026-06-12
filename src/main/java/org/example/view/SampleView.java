@@ -89,7 +89,7 @@ public final class SampleView {
             ConsoleHelper.printTableBottom();
 
             if (!paginator.needsPagination()) {
-                ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
+                ConsoleHelper.readLine("\n  [0] 위로 > ");
                 return;
             }
 
@@ -137,7 +137,7 @@ public final class SampleView {
             ConsoleHelper.printTableBottom();
 
             if (!paginator.needsPagination()) {
-                ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
+                ConsoleHelper.readLine("\n  [0] 위로 > ");
                 return;
             }
 
