@@ -41,6 +41,14 @@ tasks.withType<CreateStartScripts> {
         "-Dfile.encoding=UTF-8",
         "-Dstdout.encoding=UTF-8"
     )
+    doLast {
+        windowsScript.writeText(
+            windowsScript.readText().replace(
+                "@rem Execute SampleOrderSystem",
+                "chcp 65001 > nul\r\n@rem Execute SampleOrderSystem"
+            )
+        )
+    }
 }
 
 tasks.test {

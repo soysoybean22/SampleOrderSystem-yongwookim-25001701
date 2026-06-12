@@ -239,13 +239,82 @@ public void run() {
 | 2-1 | `ConsoleHelper.clearScreen()` 구현 | `ConsoleHelper.java` | 컴파일 확인 |
 | 2-2 | `ConsoleHelper.printBanner()` 구현 | `ConsoleHelper.java` | 수동 확인 |
 | 2-3 | `Main.java` — `printBanner()` 호출 추가 | `Main.java` | 수동 확인 |
-| 2-4 | `MainView.run()` — `clearScreen()` 추가 | `MainView.java` | 수동 확인 |
+| 2-4 | `MainView.run()` — 첫 번째 반복 clearScreen 건너뜀 | `MainView.java` | 수동 확인 |
 | 2-5 | `SampleView.run()` — `clearScreen()` 추가 | `SampleView.java` | 수동 확인 |
 | 2-6 | `OrderView.run()` — `clearScreen()` 추가 | `OrderView.java` | 수동 확인 |
 | 2-7 | `ApprovalView.run()` — `clearScreen()` 추가 | `ApprovalView.java` | 수동 확인 |
 | 2-8 | `ProductionView.run()` — `clearScreen()` 추가 | `ProductionView.java` | 수동 확인 |
 | 2-9 | `MonitoringView.run()` — `clearScreen()` 추가 | `MonitoringView.java` | 수동 확인 |
 | 2-10 | `ReleaseView.run()` — `clearScreen()` 추가 | `ReleaseView.java` | 수동 확인 |
+| 2-11 | `build.gradle.kts` — Windows 배치 스크립트에 `chcp 65001` 자동 삽입 | `build.gradle.kts` | 수동 확인 |
+
+---
+
+## 7. 버그 수정 — 첫 화면에서 배너가 사라지는 문제
+
+### 원인
+
+`Main.main()`에서 `printBanner()` 출력 직후 `MainView.run()` 루프의 첫 번째 반복이
+`clearScreen()`을 호출해 배너를 즉시 지운다.
+
+### 수정
+
+`MainView.run()` 루프에서 **첫 번째 반복에만** clearScreen을 건너뛴다.
+
+```java
+// 변경 전
+public void run() {
+    while (true) {
+        ConsoleHelper.clearScreen();
+        printSummary();
+        ...
+    }
+}
+
+// 변경 후
+public void run() {
+    boolean firstRun = true;
+    while (true) {
+        if (!firstRun) {
+            ConsoleHelper.clearScreen();
+        }
+        firstRun = false;
+        printSummary();
+        ...
+    }
+}
+```
+
+**결과:** 배너가 시스템 현황 위에 그대로 표시되고, 두 번째 루프(메뉴 선택 후 복귀)부터 clearScreen이 정상 동작한다.
+
+---
+
+## 8. 빌드 스크립트 인코딩 자동 설정
+
+### 문제
+
+Windows CMD/PowerShell의 기본 코드페이지(CP949)에서 UTF-8 한글이 깨진다.
+
+### 수정
+
+`build.gradle.kts`의 `CreateStartScripts` 태스크에 `doLast` 블록을 추가해
+생성된 `.bat` 파일의 `:execute` 구간 직전에 `chcp 65001 > nul`을 자동 삽입한다.
+
+```kotlin
+tasks.withType<CreateStartScripts> {
+    defaultJvmOpts = listOf("-Dfile.encoding=UTF-8", "-Dstdout.encoding=UTF-8")
+    doLast {
+        windowsScript.writeText(
+            windowsScript.readText().replace(
+                "@rem Execute SampleOrderSystem",
+                "chcp 65001 > nul\r\n@rem Execute SampleOrderSystem"
+            )
+        )
+    }
+}
+```
+
+**결과:** `.\gradlew installDist` 후 생성된 `.bat`을 그대로 실행하면 한글이 정상 표시된다.
 
 ---
 

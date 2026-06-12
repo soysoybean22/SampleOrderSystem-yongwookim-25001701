@@ -144,13 +144,16 @@ public static void printBanner() {
 | 2-1 | `ConsoleHelper.clearScreen()` 구현 | 수동 확인 |
 | 2-2 | `ConsoleHelper.printBanner()` 구현 | 수동 확인 |
 | 2-3 | `Main.java` 배너 호출 추가 | 수동 확인 |
-| 2-4 | `MainView` 루프 시작 시 클리어 적용 | 수동 확인 |
+| 2-4 | `MainView` 루프 **첫 번째 반복은 clearScreen 건너뜀** (배너 표시 유지) | 수동 확인 |
 | 2-5 | 각 서브메뉴 `run()` 진입 시 클리어 적용 | 수동 확인 |
+| 2-6 | `build.gradle.kts` — Windows 배치 스크립트에 `chcp 65001` 자동 삽입 | 수동 확인 |
 
 **완료 기준:**
-- [ ] 실행 시 배너 1회 출력 확인
-- [ ] 메뉴 이동 시 이전 출력이 남지 않음 확인
-- [ ] 기존 테스트 전체 통과
+- [x] 실행 시 배너 1회 출력 확인
+- [x] 메뉴 이동 시 이전 출력이 남지 않음 확인
+- [ ] 첫 화면에서 배너가 clearScreen으로 지워지지 않음 확인
+- [ ] Windows CMD/PowerShell에서 한글 깨짐 없음 확인
+- [x] 기존 테스트 전체 통과
 
 ---
 

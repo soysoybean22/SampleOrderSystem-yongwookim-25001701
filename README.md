@@ -37,28 +37,46 @@ gradlew test
 
 ## 실행 방법
 
-### 메인 앱 실행 (메인 메뉴)
+> **Windows 권장 실행 방법:** `gradlew run`은 색상(ANSI)이 표시되지 않습니다.  
+> 아래 **배포 실행** 방법을 사용하세요.
 
-```cmd
-gradlew run
+### 배포 실행 (권장 — ANSI 색상 + 한글 정상 표시)
+
+```powershell
+# 1. 배포 패키지 빌드 (최초 1회 또는 코드 변경 시)
+.\gradlew installDist
+
+# 2. 실행
+.\build\install\SampleOrderSystem\bin\SampleOrderSystem.bat
 ```
+
+`chcp 65001` (UTF-8 인코딩)은 빌드 스크립트가 자동으로 삽입합니다.  
+별도 설정 없이 한글이 정상 표시됩니다.
 
 ### 더미 데이터 생성
 
 테스트용 초기 데이터를 `data/` 폴더에 생성합니다.  
 시료 5종, 주문 10건, 생산 작업 2건이 생성됩니다.
 
-```cmd
-gradlew run --args="dummy"
+```powershell
+.\build\install\SampleOrderSystem\bin\SampleOrderSystem.bat dummy
 ```
 
 ### 데이터 현황 조회 (관리자 도구)
 
 `data/*.json`에 저장된 전체 데이터를 테이블 형태로 출력합니다.
 
-```cmd
-gradlew run --args="monitor"
+```powershell
+.\build\install\SampleOrderSystem\bin\SampleOrderSystem.bat monitor
 ```
+
+### 참고 — gradlew run (테스트·CI 환경)
+
+```cmd
+gradlew run
+```
+
+ANSI 색상 비활성화, 한글 깨짐 가능. 빠른 동작 확인 용도로만 사용.
 
 ---
 
