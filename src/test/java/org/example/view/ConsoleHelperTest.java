@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -155,6 +156,26 @@ class ConsoleHelperTest {
 
         assertTrue(result.contains("["));
         assertTrue(result.contains("]"));
+    }
+
+    @Test
+    @DisplayName("padRight()는 ASCII 문자열을 지정 표시 너비로 오른쪽 패딩한다")
+    void padRight_ASCII_패딩() {
+        assertEquals("ID      ", ConsoleHelper.padRight("ID", 8));
+    }
+
+    @Test
+    @DisplayName("padRight()는 한글 문자를 2칸으로 계산해 패딩한다")
+    void padRight_한글_2칸계산() {
+        // "이름" = 2 Korean = 4 display cols, pad to 8 → 4 spaces
+        assertEquals("이름    ", ConsoleHelper.padRight("이름", 8));
+    }
+
+    @Test
+    @DisplayName("padRight()는 한글+ASCII 혼합 문자열을 패딩한다")
+    void padRight_혼합문자열() {
+        // "LG이노텍" = 2 ASCII + 3 Korean = 2+6 = 8 display, pad to 12 → 4 spaces
+        assertEquals("LG이노텍    ", ConsoleHelper.padRight("LG이노텍", 12));
     }
 
     @Test

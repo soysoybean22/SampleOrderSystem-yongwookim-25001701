@@ -62,6 +62,22 @@ public final class ConsoleHelper {
         System.out.println();
     }
 
+    public static String padRight(String s, int targetDisplayWidth) {
+        int displayWidth = 0;
+        for (char c : s.toCharArray()) {
+            displayWidth += isFullWidthChar(c) ? 2 : 1;
+        }
+        int padding = Math.max(0, targetDisplayWidth - displayWidth);
+        return s + " ".repeat(padding);
+    }
+
+    private static boolean isFullWidthChar(char c) {
+        return (c >= '가' && c <= '힣')
+            || (c >= 'ᄀ' && c <= 'ᇿ')
+            || (c >= '㄰' && c <= '㆏')
+            || (c >= '⺀' && c <= '鿿');
+    }
+
     public static void printTableTop()                { printTableTop(62); }
     public static void printTableDivider()            { printTableDivider(62); }
     public static void printTableBottom()             { printTableBottom(62); }

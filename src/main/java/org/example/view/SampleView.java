@@ -75,11 +75,15 @@ public final class SampleView {
             ConsoleHelper.println("");
             ConsoleHelper.println("[1] 시료 관리 > 시료 목록  (총 " + samples.size() + "종)");
             ConsoleHelper.printTableTop();
-            System.out.printf("│  %-8s %-22s %10s  %5s  %7s  │%n", "ID", "이름", "생산시간", "수율", "재고");
+            ConsoleHelper.println("│  " + ConsoleHelper.padRight("ID", 8)
+                + " " + ConsoleHelper.padRight("이름", 22)
+                + " " + ConsoleHelper.padRight("생산시간", 13)
+                + ConsoleHelper.padRight("수율", 5)
+                + "  " + ConsoleHelper.padRight("재고", 8) + "│");
             ConsoleHelper.printTableDivider();
             for (Sample s : paginator.currentItems()) {
-                System.out.printf("│  %-8s %-22s %7.1f min  %5.2f  %5d ea│%n",
-                    s.getSampleId(), s.getName(),
+                System.out.printf("│  %-8s %s %7.1f min  %5.2f  %5d ea│%n",
+                    s.getSampleId(), ConsoleHelper.padRight(s.getName(), 22),
                     s.getAvgProductionTime(), s.getYield(), s.getStock());
             }
             ConsoleHelper.printTableBottom();
@@ -119,11 +123,15 @@ public final class SampleView {
             ConsoleHelper.println("");
             ConsoleHelper.println("  검색 결과 (" + result.size() + "건)  키워드: \"" + keyword + "\"");
             ConsoleHelper.printTableTop();
-            System.out.printf("│  %-8s %-22s %10s  %5s  %7s  │%n", "ID", "이름", "생산시간", "수율", "재고");
+            ConsoleHelper.println("│  " + ConsoleHelper.padRight("ID", 8)
+                + " " + ConsoleHelper.padRight("이름", 22)
+                + " " + ConsoleHelper.padRight("생산시간", 13)
+                + ConsoleHelper.padRight("수율", 5)
+                + "  " + ConsoleHelper.padRight("재고", 8) + "│");
             ConsoleHelper.printTableDivider();
             for (Sample s : paginator.currentItems()) {
-                System.out.printf("│  %-8s %-22s %7.1f min  %5.2f  %5d ea│%n",
-                    s.getSampleId(), s.getName(),
+                System.out.printf("│  %-8s %s %7.1f min  %5.2f  %5d ea│%n",
+                    s.getSampleId(), ConsoleHelper.padRight(s.getName(), 22),
                     s.getAvgProductionTime(), s.getYield(), s.getStock());
             }
             ConsoleHelper.printTableBottom();

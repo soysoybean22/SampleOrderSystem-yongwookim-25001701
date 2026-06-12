@@ -71,7 +71,10 @@ public final class ApprovalView {
         ConsoleHelper.println("승인 대기 중인 예약 목록 (RESERVED)");
         ConsoleHelper.println("");
         ConsoleHelper.printTableTop();
-        System.out.printf("│  %-4s %-22s %-18s %7s      │%n", "번호", "주문번호", "고객명", "수량");
+        ConsoleHelper.println("│  " + ConsoleHelper.padRight("번호", 5)
+            + ConsoleHelper.padRight("주문번호", 22)
+            + " " + ConsoleHelper.padRight("고객명", 18)
+            + " " + ConsoleHelper.padRight("수량", 13) + "│");
         ConsoleHelper.printTableDivider();
         for (int i = 0; i < orders.size(); i++) {
             Order o = orders.get(i);
@@ -79,11 +82,12 @@ public final class ApprovalView {
                 .filter(s -> s.getSampleId().equals(o.getSampleId()))
                 .map(Sample::getName)
                 .findFirst().orElse(o.getSampleId());
-            System.out.printf("│  [%d]  %-22s %-18s %5d ea     │%n",
-                i + 1, o.getOrderId(), o.getCustomerName(), o.getQuantity());
-            System.out.printf("│        시료: %-50s│%n", sampleName);
+            System.out.printf("│  [%d]  %-22s %s %5d ea     │%n",
+                i + 1, o.getOrderId(),
+                ConsoleHelper.padRight(o.getCustomerName(), 18), o.getQuantity());
+            ConsoleHelper.println("│        시료: " + ConsoleHelper.padRight(sampleName, 48) + "│");
         }
-        System.out.printf("│  %-60s│%n", "[0]  위로");
+        ConsoleHelper.println("│  " + ConsoleHelper.padRight("[0]  위로", 60) + "│");
         ConsoleHelper.printTableBottom();
         if (paginator.needsPagination()) {
             paginator.printNavBar();
