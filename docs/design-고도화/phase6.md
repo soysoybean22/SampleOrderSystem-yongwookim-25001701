@@ -23,13 +23,17 @@
 - `ratio`: 0~100 정수 (잔여율 %)
 - 10칸 막대 표시: `█`(채워짐) + `░`(빔)
 - `filled = ratio / 10` → 정수 나눗셈으로 칸 수 결정
-- 색상 규칙:
+- 색상 규칙 (7단계):
 
-| 조건 | 색상 | 의미 |
+| 구간 | 색상 | 의미 |
 |------|------|------|
-| `ratio == 0` | RED | 고갈 |
-| `ratio < 60` | YELLOW | 부족 주의 |
-| `ratio >= 60` | GREEN | 여유 |
+| `ratio == 0` | RED BOLD | 완전 고갈 |
+| `1 ~ 19` | RED | 위험 |
+| `20 ~ 39` | MAGENTA | 경계 |
+| `40 ~ 59` | YELLOW | 주의 |
+| `60 ~ 79` | YELLOW BOLD | 보통 |
+| `80 ~ 99` | CYAN | 양호 |
+| `ratio == 100` | GREEN | 완전 여유 |
 
 ### 구현
 
@@ -37,9 +41,14 @@
 public static String progressBar(int ratio) {
     int filled = ratio / 10;
     String bar = "█".repeat(filled) + "░".repeat(10 - filled);
-    String color = ratio == 0    ? AnsiColor.RED
-                 : ratio < 60   ? AnsiColor.YELLOW
-                 : AnsiColor.GREEN;
+    String color;
+    if      (ratio == 0)  color = AnsiColor.RED + AnsiColor.BOLD;
+    else if (ratio < 20)  color = AnsiColor.RED;
+    else if (ratio < 40)  color = AnsiColor.MAGENTA;
+    else if (ratio < 60)  color = AnsiColor.YELLOW;
+    else if (ratio < 80)  color = AnsiColor.YELLOW + AnsiColor.BOLD;
+    else if (ratio < 100) color = AnsiColor.CYAN;
+    else                  color = AnsiColor.GREEN;
     return AnsiColor.color("[" + bar + "]", color);
 }
 ```
@@ -48,12 +57,12 @@ public static String progressBar(int ratio) {
 
 | ratio | 출력 (색상 제외) | 색상 |
 |-------|------------------|------|
-| 0 | `[░░░░░░░░░░]` | RED |
-| 30 | `[███░░░░░░░]` | YELLOW |
-| 50 | `[█████░░░░░]` | YELLOW |
-| 59 | `[█████░░░░░]` | YELLOW |
-| 60 | `[██████░░░░]` | GREEN |
-| 80 | `[████████░░]` | GREEN |
+| 0 | `[░░░░░░░░░░]` | RED BOLD |
+| 10 | `[█░░░░░░░░░]` | RED |
+| 20 | `[██░░░░░░░░]` | MAGENTA |
+| 40 | `[████░░░░░░]` | YELLOW |
+| 60 | `[██████░░░░]` | YELLOW BOLD |
+| 80 | `[████████░░]` | CYAN |
 | 100 | `[██████████]` | GREEN |
 
 ---

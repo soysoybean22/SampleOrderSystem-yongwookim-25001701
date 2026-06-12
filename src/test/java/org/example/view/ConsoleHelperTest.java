@@ -120,12 +120,32 @@ class ConsoleHelperTest {
     }
 
     @Test
-    @DisplayName("progressBar(60)은 6칸 채워진 막대를 GREEN으로 출력한다")
-    void progressBar_60_GREEN_경계값() {
+    @DisplayName("progressBar(60)은 6칸 채워진 막대를 YELLOW BOLD로 출력한다")
+    void progressBar_60_YELLOW_BOLD_경계값() {
         String result = ConsoleHelper.progressBar(60);
 
         assertTrue(result.contains("██████░░░░"));
-        assertTrue(result.contains(AnsiColor.GREEN));
+        assertTrue(result.contains(AnsiColor.YELLOW));
+        assertTrue(result.contains(AnsiColor.BOLD));
+        assertFalse(result.contains(AnsiColor.GREEN));
+    }
+
+    @Test
+    @DisplayName("progressBar(20)은 MAGENTA로 출력한다")
+    void progressBar_20_MAGENTA() {
+        String result = ConsoleHelper.progressBar(20);
+
+        assertTrue(result.contains(AnsiColor.MAGENTA));
+        assertFalse(result.contains(AnsiColor.YELLOW));
+    }
+
+    @Test
+    @DisplayName("progressBar(80)은 CYAN으로 출력한다")
+    void progressBar_80_CYAN() {
+        String result = ConsoleHelper.progressBar(80);
+
+        assertTrue(result.contains(AnsiColor.CYAN));
+        assertFalse(result.contains(AnsiColor.GREEN));
     }
 
     @Test
