@@ -5,6 +5,7 @@ plugins {
 
 application {
     mainClass.set("org.example.Main")
+    applicationName = "SampleOrderSystem"
 }
 
 group = "org.example"
@@ -26,7 +27,20 @@ tasks.withType<JavaCompile> {
 
 tasks.named<JavaExec>("run") {
     standardInput = System.`in`
-    jvmArgs("-Dfile.encoding=UTF-8", "-Dstdout.encoding=UTF-8")
+    jvmArgs(
+        "-Dfile.encoding=UTF-8",
+        "-Dstdout.encoding=UTF-8",
+        "-Dstderr.encoding=UTF-8",
+        "-Dsun.stdout.encoding=UTF-8",
+        "-Dsun.stderr.encoding=UTF-8"
+    )
+}
+
+tasks.withType<CreateStartScripts> {
+    defaultJvmOpts = listOf(
+        "-Dfile.encoding=UTF-8",
+        "-Dstdout.encoding=UTF-8"
+    )
 }
 
 tasks.test {
