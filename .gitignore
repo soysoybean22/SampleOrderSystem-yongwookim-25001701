@@ -42,3 +42,9 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Generated data ###
+data/
+
+### Assignment PDF ###
+*.pdf
