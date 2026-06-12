@@ -423,6 +423,7 @@ public static String progressBar(int ratio) {
 - [x] Phase 8 — 뒤로가기 입력 통일
 - [x] Phase 9 — CMD 가로 너비 확장
 - [x] Phase 10 — 추가 화면 표 테두리
+- [ ] Phase 11 — 생산 자동 완료 + 진행률 Progress Bar
 
 ---
 
@@ -496,6 +497,29 @@ public static String progressBar(int ratio) {
 **Phase 9 완료 후 진행** (너비가 확정된 뒤 표 너비 결정).
 
 **완료 기준:**
-- [ ] 재고량 확인 표 테두리 정상 출력 확인
-- [ ] 생산라인 대기 큐 표 테두리 정상 출력 확인
+- [x] 재고량 확인 표 테두리 정상 출력 확인
+- [x] 생산라인 대기 큐 표 테두리 정상 출력 확인
+- [x] 기존 테스트 전체 통과
+
+---
+
+## 8. Phase 11 — 생산 자동 완료 + 진행률 Progress Bar
+
+**목표:** 생산 작업이 시작된 시간부터 총 생산시간이 경과하면 자동 완료 처리하고,
+생산라인 조회 화면에서 현재 진행률을 Progress Bar로 표시한다.
+
+**핵심 변경:**
+
+| 레이어 | 변경 내용 |
+|--------|-----------|
+| `ProductionJob` (Model) | `startedAt` 필드 추가, `progressRatio(now)`, `elapsedMinutes(now)` 추가 |
+| `ProductionJobRepository` | `startedAt` 직렬화·역직렬화, `updateStartedAt()` 추가 |
+| `OrderController` | 주문 승인 시 큐가 비어 있으면 `startedAt = now` 설정 |
+| `ProductionController` | `autoCompleteIfReady()` 추가, `completeProduction()` 에서 다음 작업 `startedAt` 설정 |
+| `MainView` | 루프 시작마다 `autoCompleteIfReady()` 호출 |
+| `ProductionView` | `printCurrentJob()` 에 진행률 Progress Bar + 경과 시간 표시 |
+
+**완료 기준:**
+- [ ] 총 생산시간 경과 시 자동 완료 확인 (PRODUCING → CONFIRMED)
+- [ ] 생산라인 조회 화면에서 진행률 Progress Bar 표시 확인
 - [ ] 기존 테스트 전체 통과
