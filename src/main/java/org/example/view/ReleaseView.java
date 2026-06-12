@@ -29,6 +29,7 @@ public final class ReleaseView {
             ConsoleHelper.println("");
             ConsoleHelper.printHeader("[6] 출고 처리");
             ConsoleHelper.println("  출고 가능한 주문이 없습니다.");
+            ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
             return;
         }
 
@@ -102,6 +103,7 @@ public final class ReleaseView {
         String confirm = ConsoleHelper.readLine("[Y] 확인    [N] 취소\n선택 > ");
         if (!confirm.equalsIgnoreCase("Y")) {
             ConsoleHelper.println(AnsiColor.color("  취소되었습니다.", AnsiColor.WARN));
+            ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
             return;
         }
 
@@ -112,6 +114,7 @@ public final class ReleaseView {
         ConsoleHelper.println("  상태 변경  "
             + AnsiColor.statusBadge(OrderStatus.CONFIRMED) + " → " + AnsiColor.statusBadge(OrderStatus.RELEASE));
         System.out.printf("  처리 일시   %s%n", LocalDateTime.now().format(FMT));
+        ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
     }
 
     private String resolveSampleName(String sampleId) {

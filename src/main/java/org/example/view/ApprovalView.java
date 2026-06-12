@@ -27,6 +27,7 @@ public final class ApprovalView {
             ConsoleHelper.println("");
             ConsoleHelper.printHeader("[3] 주문 승인/거절");
             ConsoleHelper.println("  승인 대기 중인 주문이 없습니다.");
+            ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
             return;
         }
 
@@ -95,6 +96,7 @@ public final class ApprovalView {
 
         if (sampleOpt.isEmpty()) {
             ConsoleHelper.println("  [오류] 시료 정보를 찾을 수 없습니다.");
+            ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
             return;
         }
 
@@ -156,5 +158,6 @@ public final class ApprovalView {
                 + AnsiColor.statusBadge(OrderStatus.RESERVED) + " → " + AnsiColor.statusBadge(OrderStatus.REJECTED));
             System.out.printf("  주문번호   %s%n", rejected.getOrderId());
         }
+        ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
     }
 }

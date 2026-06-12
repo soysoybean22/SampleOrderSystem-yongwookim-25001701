@@ -31,6 +31,7 @@ public final class ProductionView {
             ConsoleHelper.println("생산라인  단일 라인    현재 상태: " + AnsiColor.color("IDLE", AnsiColor.SUCCESS));
             ConsoleHelper.println("");
             ConsoleHelper.println(AnsiColor.color("  현재 생산 대기 중인 작업이 없습니다.", AnsiColor.WARN));
+            ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
             return;
         }
 
@@ -104,6 +105,7 @@ public final class ProductionView {
         String confirm = ConsoleHelper.readLine("[Y] 확인    [N] 취소\n선택 > ");
         if (!confirm.equalsIgnoreCase("Y")) {
             ConsoleHelper.println(AnsiColor.color("  취소되었습니다.", AnsiColor.WARN));
+            ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
             return;
         }
 
@@ -119,6 +121,7 @@ public final class ProductionView {
         System.out.printf("  재고 추가   %d ea + %d ea = %d ea%n",
             beforeStock, completed.getActualProductionQty(), afterStock);
         System.out.printf("  잔여 큐     %d건 대기 중%n", remaining);
+        ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
     }
 
     private String resolveSampleName(String sampleId) {
