@@ -3,6 +3,7 @@ package org.example.view;
 import org.example.controller.OrderController;
 import org.example.controller.SampleController;
 import org.example.repository.ProductionJobRepository;
+import org.example.model.Sample;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,12 +16,14 @@ public final class MainView {
     private final OrderController orderController;
     private final SampleView sampleView;
     private final OrderView orderView;
+    private final ApprovalView approvalView;
 
     public MainView(SampleController sampleController, OrderController orderController) {
         this.sampleController = sampleController;
         this.orderController = orderController;
         this.sampleView = new SampleView(sampleController);
         this.orderView = new OrderView(orderController, sampleController);
+        this.approvalView = new ApprovalView(orderController, sampleController);
     }
 
     public void run() {
@@ -31,7 +34,8 @@ public final class MainView {
             switch (input) {
                 case "1" -> sampleView.run();
                 case "2" -> orderView.run();
-                case "3", "4", "5", "6" -> ConsoleHelper.println("  준비 중인 기능입니다.");
+                case "3" -> approvalView.run();
+                case "4", "5", "6" -> ConsoleHelper.println("  준비 중인 기능입니다.");
                 case "0" -> {
                     ConsoleHelper.println("  시스템을 종료합니다.");
                     return;

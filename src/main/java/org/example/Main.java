@@ -3,6 +3,7 @@ package org.example;
 import org.example.controller.OrderController;
 import org.example.controller.SampleController;
 import org.example.repository.OrderRepository;
+import org.example.repository.ProductionJobRepository;
 import org.example.repository.SampleRepository;
 import org.example.tool.DataMonitorTool;
 import org.example.tool.DummyDataGenerator;
@@ -23,7 +24,7 @@ public final class Main {
         }
         SampleController sampleController = new SampleController(new SampleRepository());
         OrderController orderController = new OrderController(
-            new OrderRepository(), new SampleRepository());
+            new OrderRepository(), new SampleRepository(), new ProductionJobRepository());
         new MainView(sampleController, orderController).run();
     }
 }
