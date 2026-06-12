@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ConsoleHelperTest {
@@ -62,5 +63,32 @@ class ConsoleHelperTest {
 
         String output = outContent.toString(StandardCharsets.UTF_8);
         assertTrue(output.contains(AnsiColor.CYAN));
+    }
+
+    @Test
+    @DisplayName("printHeader()는 제목 텍스트에 CYAN 색상을 적용한다")
+    void printHeader_제목에_CYAN_색상을_적용한다() {
+        ConsoleHelper.printHeader("테스트 헤더");
+
+        String output = outContent.toString(StandardCharsets.UTF_8);
+        assertTrue(output.contains(AnsiColor.CYAN));
+    }
+
+    @Test
+    @DisplayName("printHeader()는 제목 텍스트에 BOLD를 적용한다")
+    void printHeader_제목에_BOLD를_적용한다() {
+        ConsoleHelper.printHeader("테스트 헤더");
+
+        String output = outContent.toString(StandardCharsets.UTF_8);
+        assertTrue(output.contains(AnsiColor.BOLD));
+    }
+
+    @Test
+    @DisplayName("printHeader()는 제목 텍스트를 포함한다")
+    void printHeader_제목_텍스트를_포함한다() {
+        ConsoleHelper.printHeader("테스트 헤더");
+
+        String output = outContent.toString(StandardCharsets.UTF_8);
+        assertTrue(output.contains("테스트 헤더"));
     }
 }

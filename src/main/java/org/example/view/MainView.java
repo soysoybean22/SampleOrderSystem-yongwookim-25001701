@@ -67,29 +67,32 @@ public final class MainView {
     }
 
     private void printSummary() {
-        int sampleCount = sampleController.findAll().size();
-        int totalStock = sampleController.findAll().stream().mapToInt(s -> s.getStock()).sum();
-        int orderCount = orderController.findAllOrders().size();
+        int sampleCount     = sampleController.findAll().size();
+        int totalStock      = sampleController.findAll().stream().mapToInt(s -> s.getStock()).sum();
+        int orderCount      = orderController.findAllOrders().size();
         int productionCount = productionController.getQueue().size();
+        int reservedCount   = orderController.findReservedOrders().size();
 
-        ConsoleHelper.println("");
-        ConsoleHelper.printSeparator();
-        ConsoleHelper.println("        반도체 시료 생산주문관리 시스템");
-        ConsoleHelper.printSeparator();
         ConsoleHelper.println("시스템 현황  " + LocalDateTime.now().format(FMT));
         ConsoleHelper.println("");
-        int reservedCount = orderController.findReservedOrders().size();
-        System.out.printf("등록 시료 %3d종    총 재고 %6d ea%n", sampleCount, totalStock);
-        System.out.printf("전체 주문 %3d건    생산라인 %3d건 대기    승인 대기 %3d건%n",
-            orderCount, productionCount, reservedCount);
+
+        String sc = AnsiColor.color(String.format("%3d", sampleCount),     AnsiColor.SUCCESS);
+        String ts = AnsiColor.color(String.format("%6d", totalStock),      AnsiColor.SUCCESS);
+        String oc = AnsiColor.boldNum(String.format("%3d", orderCount));
+        String pc = AnsiColor.color(String.format("%3d", productionCount), AnsiColor.MAGENTA);
+        String rc = AnsiColor.color(String.format("%3d", reservedCount),   AnsiColor.WARN);
+
+        ConsoleHelper.println("등록 시료 " + sc + "종    총 재고 " + ts + " ea");
+        ConsoleHelper.println("전체 주문 " + oc + "건    생산라인 " + pc + "건 대기    승인 대기 " + rc + "건");
     }
 
     private void printMenu() {
+        String n0 = AnsiColor.color("[0]", AnsiColor.RED);
         ConsoleHelper.printThinLine();
-        ConsoleHelper.println("  [1] 시료 관리          [2] 시료 주문");
-        ConsoleHelper.println("  [3] 주문 승인/거절     [4] 모니터링");
-        ConsoleHelper.println("  [5] 생산라인 조회      [6] 출고 처리");
-        ConsoleHelper.println("  [0] 종료");
+        ConsoleHelper.println("  " + AnsiColor.menuNum("1") + " 시료 관리          " + AnsiColor.menuNum("2") + " 시료 주문");
+        ConsoleHelper.println("  " + AnsiColor.menuNum("3") + " 주문 승인/거절     " + AnsiColor.menuNum("4") + " 모니터링");
+        ConsoleHelper.println("  " + AnsiColor.menuNum("5") + " 생산라인 조회      " + AnsiColor.menuNum("6") + " 출고 처리");
+        ConsoleHelper.println("  " + n0 + " 종료");
         ConsoleHelper.printThinLine();
     }
 }

@@ -50,7 +50,7 @@ public final class ConsoleHelper {
 
     public static void printHeader(String title) {
         System.out.println(SEPARATOR);
-        System.out.println("  " + title);
+        System.out.println(AnsiColor.color("  " + title, AnsiColor.HEADER));
         System.out.println(SEPARATOR);
     }
 
