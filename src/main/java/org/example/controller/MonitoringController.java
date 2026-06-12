@@ -37,6 +37,12 @@ public final class MonitoringController {
         return summary;
     }
 
+    public int getRejectedCount() {
+        return (int) orderRepository.findAll().stream()
+            .filter(o -> o.getStatus() == OrderStatus.REJECTED)
+            .count();
+    }
+
     public List<SampleStockInfo> getStockStatus() {
         List<Order> activeOrders = orderRepository.findAll().stream()
             .filter(o -> o.getStatus() == OrderStatus.CONFIRMED

@@ -52,6 +52,9 @@ public final class MonitoringView {
 
         ConsoleHelper.println("  ─────────────────────");
         System.out.printf("  %-12s %4d건  (REJECTED 제외)%n", "합계", total);
+        ConsoleHelper.println("");
+        System.out.printf("  * 거절된 주문  %d건  (참고용)%n",
+            monitoringController.getRejectedCount());
     }
 
     private void showStockStatus() {
