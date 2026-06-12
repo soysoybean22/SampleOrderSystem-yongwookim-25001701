@@ -405,9 +405,9 @@ public static String progressBar(int ratio) {
 | 7-3 | `ApprovalView` / `ReleaseView` 주문 목록 적용 | 수동 확인 |
 
 **완료 기준:**
-- [ ] CMD 폰트에서 테두리 문자 정상 표시 확인 (사전 검토)
-- [ ] 시료 목록 테두리 표시 확인
-- [ ] 기존 테스트 전체 통과
+- [x] CMD 폰트에서 테두리 문자 정상 표시 확인 (사전 검토)
+- [x] 시료 목록 테두리 표시 확인
+- [x] 기존 테스트 전체 통과
 
 ---
 
@@ -418,8 +418,8 @@ public static String progressBar(int ratio) {
 - [x] Phase 3 — 메인 메뉴 + 공통 색상
 - [x] Phase 4 — 상태 뱃지 + 메시지 색상 전체
 - [x] Phase 5 — 페이지네이션
-- [ ] Phase 6 — Progress Bar
-- [ ] Phase 7 — 표 테두리 (선택)
+- [x] Phase 6 — Progress Bar
+- [x] Phase 7 — 표 테두리 (선택)
 
 ---
 
