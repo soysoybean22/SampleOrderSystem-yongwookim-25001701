@@ -1,5 +1,7 @@
 package org.example;
 
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import org.example.controller.MonitoringController;
 import org.example.controller.OrderController;
 import org.example.controller.ProductionController;
@@ -17,6 +19,9 @@ public final class Main {
     private Main() {}
 
     public static void main(String[] args) {
+        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
+        System.setErr(new PrintStream(System.err, true, StandardCharsets.UTF_8));
+
         if (args.length > 0) {
             switch (args[0]) {
                 case "monitor" -> DataMonitorTool.run();
