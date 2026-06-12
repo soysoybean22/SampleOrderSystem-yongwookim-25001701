@@ -3,6 +3,7 @@ package org.example.view;
 import org.example.controller.ReleaseController;
 import org.example.controller.SampleController;
 import org.example.model.Order;
+import org.example.model.OrderStatus;
 import org.example.model.Sample;
 
 import java.time.LocalDateTime;
@@ -83,15 +84,16 @@ public final class ReleaseView {
 
         String confirm = ConsoleHelper.readLine("[Y] 확인    [N] 취소\n선택 > ");
         if (!confirm.equalsIgnoreCase("Y")) {
-            ConsoleHelper.println("  취소되었습니다.");
+            ConsoleHelper.println(AnsiColor.color("  취소되었습니다.", AnsiColor.WARN));
             return;
         }
 
         Order released = releaseController.release(order.getOrderId());
         ConsoleHelper.println("");
-        ConsoleHelper.println("출고 처리 완료.");
+        ConsoleHelper.println(AnsiColor.color("✓ 출고 처리 완료.", AnsiColor.SUCCESS));
         System.out.printf("  주문번호    %s%n", released.getOrderId());
-        ConsoleHelper.println("  상태 변경   CONFIRMED → RELEASE");
+        ConsoleHelper.println("  상태 변경  "
+            + AnsiColor.statusBadge(OrderStatus.CONFIRMED) + " → " + AnsiColor.statusBadge(OrderStatus.RELEASE));
         System.out.printf("  처리 일시   %s%n", LocalDateTime.now().format(FMT));
     }
 

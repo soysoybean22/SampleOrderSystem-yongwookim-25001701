@@ -2,6 +2,7 @@ package org.example.view;
 
 import org.example.controller.ProductionController;
 import org.example.controller.SampleController;
+import org.example.model.OrderStatus;
 import org.example.model.ProductionJob;
 import org.example.model.Sample;
 
@@ -27,13 +28,13 @@ public final class ProductionView {
         List<ProductionJob> queue = productionController.getQueue();
 
         if (queue.isEmpty()) {
-            ConsoleHelper.println("생산라인  단일 라인    현재 상태: IDLE");
+            ConsoleHelper.println("생산라인  단일 라인    현재 상태: " + AnsiColor.color("IDLE", AnsiColor.SUCCESS));
             ConsoleHelper.println("");
-            ConsoleHelper.println("  현재 생산 대기 중인 작업이 없습니다.");
+            ConsoleHelper.println(AnsiColor.color("  현재 생산 대기 중인 작업이 없습니다.", AnsiColor.WARN));
             return;
         }
 
-        ConsoleHelper.println("생산라인  단일 라인    현재 상태: RUNNING");
+        ConsoleHelper.println("생산라인  단일 라인    현재 상태: " + AnsiColor.color("RUNNING", AnsiColor.MAGENTA + AnsiColor.BOLD));
         printCurrentJob(queue.get(0));
         printWaitingQueue(queue);
         printFootnote();
@@ -52,7 +53,7 @@ public final class ProductionView {
         int shortage = job.getShortage();
 
         ConsoleHelper.println("");
-        ConsoleHelper.println("[ 현재 처리 중 ]");
+        ConsoleHelper.println(AnsiColor.color("[ 현재 처리 중 ]", AnsiColor.MAGENTA + AnsiColor.BOLD));
         System.out.printf("  주문번호    %s%n", job.getOrderId());
         System.out.printf("  시료        %s (%s)%n", sampleName, job.getSampleId());
         System.out.printf("  주문량      %d ea    현재 재고 %d ea → 부족 %d ea%n",
@@ -81,8 +82,8 @@ public final class ProductionView {
 
     private void printFootnote() {
         ConsoleHelper.println("");
-        ConsoleHelper.println("  * 부족분 = 주문량 - 재고,  실생산량 = ceil(부족분 / (수율 × 0.9))");
-        ConsoleHelper.println("  * FIFO 방식으로 처리됩니다.");
+        ConsoleHelper.println(AnsiColor.color("  * 부족분 = 주문량 - 재고,  실생산량 = ceil(부족분 / (수율 × 0.9))", AnsiColor.WARN));
+        ConsoleHelper.println(AnsiColor.color("  * FIFO 방식으로 처리됩니다.", AnsiColor.WARN));
     }
 
     private void completeProduction(ProductionJob current) {
@@ -102,7 +103,7 @@ public final class ProductionView {
 
         String confirm = ConsoleHelper.readLine("[Y] 확인    [N] 취소\n선택 > ");
         if (!confirm.equalsIgnoreCase("Y")) {
-            ConsoleHelper.println("  취소되었습니다.");
+            ConsoleHelper.println(AnsiColor.color("  취소되었습니다.", AnsiColor.WARN));
             return;
         }
 
@@ -111,9 +112,10 @@ public final class ProductionView {
         int remaining = productionController.getQueue().size();
 
         ConsoleHelper.println("");
-        ConsoleHelper.println("생산 완료.");
+        ConsoleHelper.println(AnsiColor.color("✓ 생산 완료.", AnsiColor.SUCCESS));
         System.out.printf("  주문번호    %s%n", completed.getOrderId());
-        ConsoleHelper.println("  상태 변경   PRODUCING → CONFIRMED");
+        ConsoleHelper.println("  상태 변경  "
+            + AnsiColor.statusBadge(OrderStatus.PRODUCING) + " → " + AnsiColor.statusBadge(OrderStatus.CONFIRMED));
         System.out.printf("  재고 추가   %d ea + %d ea = %d ea%n",
             beforeStock, completed.getActualProductionQty(), afterStock);
         System.out.printf("  잔여 큐     %d건 대기 중%n", remaining);

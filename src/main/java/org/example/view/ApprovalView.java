@@ -4,6 +4,7 @@ import org.example.controller.OrderController;
 import org.example.controller.SampleController;
 import org.example.model.ApprovalResult;
 import org.example.model.Order;
+import org.example.model.OrderStatus;
 import org.example.model.Sample;
 
 import java.util.List;
@@ -91,7 +92,7 @@ public final class ApprovalView {
         System.out.printf("  주문 수량  %d ea%n", quantity);
 
         if (stock >= quantity) {
-            System.out.printf("  현재 재고  %d ea    ← 충분%n", stock);
+            ConsoleHelper.println("  현재 재고  " + stock + " ea    " + AnsiColor.color("← 충분", AnsiColor.SUCCESS));
             ConsoleHelper.println("");
             String confirm = ConsoleHelper.readLine("[Y] 승인 (즉시 출고 대기)    [N] 주문 거절\n선택 > ");
             handleApprovalConfirm(confirm, order, stock, quantity);
@@ -100,9 +101,10 @@ public final class ApprovalView {
             int actualQty = (int) Math.ceil(shortage / (sample.getYield() * 0.9));
             double totalTime = sample.getAvgProductionTime() * actualQty;
 
-            System.out.printf("  현재 재고  %d ea    ← 부족 (%d ea 모자람)%n", stock, shortage);
+            ConsoleHelper.println("  현재 재고  " + stock + " ea    "
+                + AnsiColor.color("← 부족 (" + shortage + " ea 모자람)", AnsiColor.WARN));
             ConsoleHelper.println("");
-            ConsoleHelper.println("  재고 부족. 생산이 필요합니다.");
+            ConsoleHelper.println(AnsiColor.color("  재고 부족. 생산이 필요합니다.", AnsiColor.WARN));
             System.out.printf("    부족분      %d ea%n", shortage);
             System.out.printf("    실 생산량   %d ea  (수율 %.2f / 오차 보정 0.9 적용)%n",
                 actualQty, sample.getYield());
@@ -118,20 +120,23 @@ public final class ApprovalView {
         if (confirm.equalsIgnoreCase("Y")) {
             ApprovalResult result = orderController.approveOrder(order.getOrderId());
             if (result.isConfirmed()) {
-                ConsoleHelper.println("승인 완료.");
-                System.out.printf("  상태 변경  RESERVED → CONFIRMED%n");
+                ConsoleHelper.println(AnsiColor.color("✓ 승인 완료.", AnsiColor.SUCCESS));
+                ConsoleHelper.println("  상태 변경  "
+                    + AnsiColor.statusBadge(OrderStatus.RESERVED) + " → " + AnsiColor.statusBadge(OrderStatus.CONFIRMED));
                 System.out.printf("  주문번호   %s%n", result.getOrder().getOrderId());
                 System.out.printf("  재고 차감  %d ea → %d ea%n", stock, stock - quantity);
             } else {
-                ConsoleHelper.println("승인 완료.");
-                System.out.printf("  상태 변경  RESERVED → PRODUCING%n");
+                ConsoleHelper.println(AnsiColor.color("✓ 승인 완료.", AnsiColor.SUCCESS));
+                ConsoleHelper.println("  상태 변경  "
+                    + AnsiColor.statusBadge(OrderStatus.RESERVED) + " → " + AnsiColor.statusBadge(OrderStatus.PRODUCING));
                 System.out.printf("  주문번호   %s%n", result.getOrder().getOrderId());
-                ConsoleHelper.println("  생산 큐에 등록되었습니다.");
+                ConsoleHelper.println(AnsiColor.color("  생산 큐에 등록되었습니다.", AnsiColor.WARN));
             }
         } else {
             Order rejected = orderController.rejectOrder(order.getOrderId());
-            ConsoleHelper.println("거절 완료.");
-            System.out.printf("  상태 변경  RESERVED → REJECTED%n");
+            ConsoleHelper.println(AnsiColor.color("✗ 거절 완료.", AnsiColor.ERROR));
+            ConsoleHelper.println("  상태 변경  "
+                + AnsiColor.statusBadge(OrderStatus.RESERVED) + " → " + AnsiColor.statusBadge(OrderStatus.REJECTED));
             System.out.printf("  주문번호   %s%n", rejected.getOrderId());
         }
     }

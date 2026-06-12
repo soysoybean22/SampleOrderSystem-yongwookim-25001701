@@ -49,10 +49,10 @@ public final class SampleView {
         try {
             controller.register(sampleId, name, avgProductionTime, yield, stock);
             ConsoleHelper.println("");
-            ConsoleHelper.println("  등록 완료: " + name + " (" + sampleId + ")");
+            ConsoleHelper.println(AnsiColor.color("  ✓ 등록 완료: " + name + " (" + sampleId + ")", AnsiColor.SUCCESS));
         } catch (IllegalArgumentException e) {
             ConsoleHelper.println("");
-            ConsoleHelper.println("  [오류] " + e.getMessage());
+            ConsoleHelper.println(AnsiColor.color("  ✗ [오류] " + e.getMessage(), AnsiColor.ERROR));
         }
     }
 

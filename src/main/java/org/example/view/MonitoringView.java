@@ -47,15 +47,18 @@ public final class MonitoringView {
         ConsoleHelper.println("");
 
         for (Map.Entry<OrderStatus, Integer> entry : summary.entrySet()) {
-            String suffix = entry.getKey() == OrderStatus.PRODUCING ? "  ← 생산라인 대기" : "";
-            System.out.printf("  %-12s %4d건%s%n", entry.getKey(), entry.getValue(), suffix);
+            String suffix = entry.getKey() == OrderStatus.PRODUCING
+                ? AnsiColor.color("  ← 생산라인 대기", AnsiColor.MAGENTA) : "";
+            ConsoleHelper.println("  " + AnsiColor.statusBadge(entry.getKey())
+                + String.format(" %4d건", entry.getValue()) + suffix);
         }
 
         ConsoleHelper.println("  ─────────────────────");
         System.out.printf("  %-12s %4d건  (REJECTED 제외)%n", "합계", total);
         ConsoleHelper.println("");
-        System.out.printf("  * 거절된 주문  %d건  (참고용)%n",
-            monitoringController.getRejectedCount());
+        ConsoleHelper.println(AnsiColor.color(
+            String.format("  * 거절된 주문  %d건  (참고용)", monitoringController.getRejectedCount()),
+            AnsiColor.WARN));
     }
 
     private void showStockStatus() {
@@ -76,15 +79,15 @@ public final class MonitoringView {
             int total = stock + pending;
             int ratio = total == 0 ? 0 : (int) (stock * 100.0 / total);
 
-            System.out.printf("  %-24s %6d ea %8d ea  %-4s  %4d%%%n",
+            ConsoleHelper.println(String.format("  %-24s %6d ea %8d ea  %-10s  %4d%%",
                 info.getSample().getName(),
                 stock, pending,
-                info.getStatus(),
-                ratio);
+                AnsiColor.stockStatusColored(info.getStatus()),
+                ratio));
         }
 
         ConsoleHelper.println("");
-        ConsoleHelper.println("  * 미처리 주문 = CONFIRMED + PRODUCING 상태 주문 수량 합계");
-        ConsoleHelper.println("  * 잔여율 = 재고 / (재고 + 미처리 주문) × 100");
+        ConsoleHelper.println(AnsiColor.color("  * 미처리 주문 = CONFIRMED + PRODUCING 상태 주문 수량 합계", AnsiColor.WARN));
+        ConsoleHelper.println(AnsiColor.color("  * 잔여율 = 재고 / (재고 + 미처리 주문) × 100", AnsiColor.WARN));
     }
 }

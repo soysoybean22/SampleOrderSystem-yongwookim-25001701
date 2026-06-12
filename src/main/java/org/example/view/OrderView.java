@@ -34,7 +34,7 @@ public final class OrderView {
 
         if (sampleOpt.isEmpty()) {
             ConsoleHelper.println("");
-            ConsoleHelper.println("  [오류] 등록되지 않은 시료 ID입니다: " + sampleId);
+            ConsoleHelper.println(AnsiColor.color("  ✗ [오류] 등록되지 않은 시료 ID입니다: " + sampleId, AnsiColor.ERROR));
             return;
         }
 
@@ -44,7 +44,7 @@ public final class OrderView {
         while (true) {
             quantity = ConsoleHelper.readInt("주문 수량 > ");
             if (quantity > 0) break;
-            ConsoleHelper.println("  [오류] 수량은 1 이상이어야 합니다.");
+            ConsoleHelper.println(AnsiColor.color("  ✗ [오류] 수량은 1 이상이어야 합니다.", AnsiColor.ERROR));
         }
 
         Sample sample = sampleOpt.get();
@@ -59,16 +59,16 @@ public final class OrderView {
         String confirm = ConsoleHelper.readLine("[Y] 예약 접수    [N] 취소\n선택 > ");
         if (!confirm.equalsIgnoreCase("Y")) {
             ConsoleHelper.println("");
-            ConsoleHelper.println("  주문이 취소되었습니다.");
+            ConsoleHelper.println(AnsiColor.color("  주문이 취소되었습니다.", AnsiColor.WARN));
             return;
         }
 
         Order order = orderController.placeOrder(sampleId, customerName, quantity);
         ConsoleHelper.println("");
-        ConsoleHelper.println("예약 접수 완료.");
+        ConsoleHelper.println(AnsiColor.color("✓ 예약 접수 완료.", AnsiColor.SUCCESS));
         System.out.printf("  주문번호   %s%n", order.getOrderId());
-        System.out.printf("  현재 상태  %s%n", order.getStatus());
+        ConsoleHelper.println("  현재 상태  " + AnsiColor.statusBadge(order.getStatus()));
         ConsoleHelper.println("");
-        ConsoleHelper.println("  ※ 재고 확인 및 승인은 [3] 주문 승인/거절 메뉴에서 진행하세요.");
+        ConsoleHelper.println(AnsiColor.color("  ※ 재고 확인 및 승인은 [3] 주문 승인/거절 메뉴에서 진행하세요.", AnsiColor.WARN));
     }
 }
