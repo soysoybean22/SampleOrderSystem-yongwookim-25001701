@@ -3,5 +3,8 @@
   {"sampleId": "S-002", "name": "GaN 에피택셜-4인치", "avgProductionTime": 0.3, "yield": 0.78, "stock": 220},
   {"sampleId": "S-003", "name": "SiC 파워기판-6인치", "avgProductionTime": 0.8, "yield": 0.92, "stock": 30},
   {"sampleId": "S-004", "name": "포토레지스트-PR7", "avgProductionTime": 0.2, "yield": 0.95, "stock": 910},
-  {"sampleId": "S-005", "name": "산화막 웨이퍼-SiO2", "avgProductionTime": 0.6, "yield": 0.88, "stock": 0}
+  {"sampleId": "S-005", "name": "산화막 웨이퍼-SiO2", "avgProductionTime": 0.6, "yield": 0.88, "stock": 0},
+  {"sampleId": "S-006", "name": "질화갈륨 기판-GaN", "avgProductionTime": 1.2, "yield": 0.85, "stock": 150},
+  {"sampleId": "S-007", "name": "탄화규소 에피-4H", "avgProductionTime": 0.9, "yield": 0.9, "stock": 75},
+  {"sampleId": "S-008", "name": "인화인듐 기판-InP", "avgProductionTime": 0.7, "yield": 0.82, "stock": 320}
 ]
