@@ -20,6 +20,7 @@ public final class ProductionView {
     }
 
     public void run() {
+        ConsoleHelper.clearScreen();
         ConsoleHelper.println("");
         ConsoleHelper.printHeader("[5] 생산라인 조회  FIFO 방식");
 

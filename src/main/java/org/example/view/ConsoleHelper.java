@@ -61,4 +61,22 @@ public final class ConsoleHelper {
     public static void println() {
         System.out.println();
     }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public static void printBanner() {
+        String art = """
+              ____       ____                 _
+             / ___|     / ___|  ___ _ __ ___ (_)
+             \\___ \\ ____\\___ \\ / _ \\ '_ ` _ \\| |
+              ___) |_____|__) |  __/ | | | | | |
+             |____/     |____/ \\___|_| |_| |_|_|
+            """;
+        System.out.println(AnsiColor.color(art, AnsiColor.CYAN + AnsiColor.BOLD));
+        System.out.println("        반도체 시료 생산주문관리 시스템");
+        printSeparator();
+    }
 }

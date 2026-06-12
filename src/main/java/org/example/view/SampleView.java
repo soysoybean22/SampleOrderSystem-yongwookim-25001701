@@ -15,6 +15,7 @@ public final class SampleView {
 
     public void run() {
         while (true) {
+            ConsoleHelper.clearScreen();
             printMenu();
             String input = ConsoleHelper.readLine("선택 > ");
             switch (input) {

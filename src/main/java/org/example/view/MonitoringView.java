@@ -20,6 +20,7 @@ public final class MonitoringView {
 
     public void run() {
         while (true) {
+            ConsoleHelper.clearScreen();
             ConsoleHelper.println("");
             ConsoleHelper.printHeader("[4] 모니터링  " + LocalDateTime.now().format(FMT));
             ConsoleHelper.println("  [1] 주문량 확인    [2] 재고량 확인    [0] 위로");

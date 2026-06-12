@@ -20,6 +20,7 @@ public final class ApprovalView {
     }
 
     public void run() {
+        ConsoleHelper.clearScreen();
         ConsoleHelper.println("");
         ConsoleHelper.printHeader("[3] 주문 승인/거절");
 

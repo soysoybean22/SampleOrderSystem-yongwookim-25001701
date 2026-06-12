@@ -22,6 +22,7 @@ public final class ReleaseView {
     }
 
     public void run() {
+        ConsoleHelper.clearScreen();
         ConsoleHelper.println("");
         ConsoleHelper.printHeader("[6] 출고 처리");
 

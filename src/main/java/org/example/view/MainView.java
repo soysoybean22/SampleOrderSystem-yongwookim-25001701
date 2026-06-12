@@ -45,6 +45,7 @@ public final class MainView {
 
     public void run() {
         while (true) {
+            ConsoleHelper.clearScreen();
             printSummary();
             printMenu();
             String input = ConsoleHelper.readLine("선택 > ");

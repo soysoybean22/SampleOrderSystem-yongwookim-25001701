@@ -18,6 +18,7 @@ public final class OrderView {
     }
 
     public void run() {
+        ConsoleHelper.clearScreen();
         ConsoleHelper.println("");
         ConsoleHelper.printHeader("[2] 시료 주문");
         placeOrder();

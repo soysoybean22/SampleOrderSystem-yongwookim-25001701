@@ -12,6 +12,7 @@ import org.example.repository.ProductionJobRepository;
 import org.example.repository.SampleRepository;
 import org.example.tool.DataMonitorTool;
 import org.example.tool.DummyDataGenerator;
+import org.example.view.ConsoleHelper;
 import org.example.view.MainView;
 
 public final class Main {
@@ -40,6 +41,7 @@ public final class Main {
         MonitoringController monitoringController = new MonitoringController(orderRepo, sampleRepo);
         ReleaseController releaseController = new ReleaseController(orderRepo);
 
+        ConsoleHelper.printBanner();
         new MainView(sampleController, orderController, productionController,
             monitoringController, releaseController).run();
     }
