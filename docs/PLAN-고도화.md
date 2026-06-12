@@ -423,7 +423,7 @@ public static String progressBar(int ratio) {
 - [x] Phase 8 — 뒤로가기 입력 통일
 - [x] Phase 9 — CMD 가로 너비 확장
 - [x] Phase 10 — 추가 화면 표 테두리
-- [ ] Phase 11 — 생산 자동 완료 + 진행률 Progress Bar
+- [x] Phase 11 — 생산 자동 완료 + 진행률 Progress Bar
 
 ---
 
@@ -520,6 +520,6 @@ public static String progressBar(int ratio) {
 | `ProductionView` | `printCurrentJob()` 에 진행률 Progress Bar + 경과 시간 표시 |
 
 **완료 기준:**
-- [ ] 총 생산시간 경과 시 자동 완료 확인 (PRODUCING → CONFIRMED)
-- [ ] 생산라인 조회 화면에서 진행률 Progress Bar 표시 확인
-- [ ] 기존 테스트 전체 통과
+- [x] 총 생산시간 경과 시 자동 완료 확인 (PRODUCING → CONFIRMED)
+- [x] 생산라인 조회 화면에서 진행률 Progress Bar 표시 확인
+- [x] 기존 테스트 전체 통과
