@@ -1,5 +1,6 @@
 package org.example.view;
 
+import org.example.controller.MonitoringController;
 import org.example.controller.OrderController;
 import org.example.controller.ProductionController;
 import org.example.controller.SampleController;
@@ -14,21 +15,26 @@ public final class MainView {
     private final SampleController sampleController;
     private final OrderController orderController;
     private final ProductionController productionController;
+    private final MonitoringController monitoringController;
     private final SampleView sampleView;
     private final OrderView orderView;
     private final ApprovalView approvalView;
     private final ProductionView productionView;
+    private final MonitoringView monitoringView;
 
     public MainView(SampleController sampleController,
                     OrderController orderController,
-                    ProductionController productionController) {
+                    ProductionController productionController,
+                    MonitoringController monitoringController) {
         this.sampleController = sampleController;
         this.orderController = orderController;
         this.productionController = productionController;
+        this.monitoringController = monitoringController;
         this.sampleView = new SampleView(sampleController);
         this.orderView = new OrderView(orderController, sampleController);
         this.approvalView = new ApprovalView(orderController, sampleController);
         this.productionView = new ProductionView(productionController, sampleController);
+        this.monitoringView = new MonitoringView(monitoringController);
     }
 
     public void run() {
@@ -40,7 +46,8 @@ public final class MainView {
                 case "1" -> sampleView.run();
                 case "2" -> orderView.run();
                 case "3" -> approvalView.run();
-                case "4", "6" -> ConsoleHelper.println("  준비 중인 기능입니다.");
+                case "4" -> monitoringView.run();
+                case "6" -> ConsoleHelper.println("  준비 중인 기능입니다.");
                 case "5" -> productionView.run();
                 case "0" -> {
                     ConsoleHelper.println("  시스템을 종료합니다.");

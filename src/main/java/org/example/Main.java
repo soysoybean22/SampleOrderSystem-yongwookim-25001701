@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.controller.MonitoringController;
 import org.example.controller.OrderController;
 import org.example.controller.ProductionController;
 import org.example.controller.SampleController;
@@ -30,7 +31,8 @@ public final class Main {
         SampleController sampleController = new SampleController(sampleRepo);
         OrderController orderController = new OrderController(orderRepo, sampleRepo, jobRepo);
         ProductionController productionController = new ProductionController(jobRepo, sampleRepo, orderRepo);
+        MonitoringController monitoringController = new MonitoringController(orderRepo, sampleRepo);
 
-        new MainView(sampleController, orderController, productionController).run();
+        new MainView(sampleController, orderController, productionController, monitoringController).run();
     }
 }
