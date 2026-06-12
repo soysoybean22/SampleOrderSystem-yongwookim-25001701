@@ -23,38 +23,52 @@ public final class ReleaseView {
     }
 
     public void run() {
-        ConsoleHelper.clearScreen();
-        ConsoleHelper.println("");
-        ConsoleHelper.printHeader("[6] 출고 처리");
-
         List<Order> confirmed = releaseController.findConfirmedOrders();
         if (confirmed.isEmpty()) {
+            ConsoleHelper.clearScreen();
+            ConsoleHelper.println("");
+            ConsoleHelper.printHeader("[6] 출고 처리");
             ConsoleHelper.println("  출고 가능한 주문이 없습니다.");
             return;
         }
 
-        printConfirmedList(confirmed);
+        Paginator<Order> paginator = new Paginator<>(confirmed);
 
-        String input = ConsoleHelper.readLine("출고할 번호 > ");
-        if (input.equals("0")) return;
+        while (true) {
+            ConsoleHelper.clearScreen();
+            ConsoleHelper.println("");
+            ConsoleHelper.printHeader("[6] 출고 처리");
+            printConfirmedList(paginator.currentItems(), paginator);
 
-        int index;
-        try {
-            index = Integer.parseInt(input) - 1;
-        } catch (NumberFormatException e) {
-            ConsoleHelper.println("  잘못된 입력입니다.");
+            String prompt = paginator.needsPagination()
+                ? "번호 선택 또는 [P/N] 페이지 이동, [0] 위로 > "
+                : "출고할 번호 > ";
+            String input = ConsoleHelper.readLine(prompt);
+
+            if (input.equals("0")) return;
+            if (input.equalsIgnoreCase("N")) { paginator.nextPage(); continue; }
+            if (input.equalsIgnoreCase("P")) { paginator.prevPage(); continue; }
+
+            int index;
+            try {
+                index = Integer.parseInt(input) - 1;
+            } catch (NumberFormatException e) {
+                ConsoleHelper.println("  잘못된 입력입니다.");
+                continue;
+            }
+
+            List<Order> current = paginator.currentItems();
+            if (index < 0 || index >= current.size()) {
+                ConsoleHelper.println("  목록에 없는 번호입니다.");
+                continue;
+            }
+
+            processRelease(current.get(index));
             return;
         }
-
-        if (index < 0 || index >= confirmed.size()) {
-            ConsoleHelper.println("  목록에 없는 번호입니다.");
-            return;
-        }
-
-        processRelease(confirmed.get(index));
     }
 
-    private void printConfirmedList(List<Order> orders) {
+    private void printConfirmedList(List<Order> orders, Paginator<Order> paginator) {
         ConsoleHelper.println("출고 가능 주문 (CONFIRMED)");
         ConsoleHelper.println("");
         System.out.printf("  %-4s %-22s %-22s %-18s %7s%n",
@@ -68,6 +82,9 @@ public final class ReleaseView {
         }
         ConsoleHelper.println("  [0]  위로");
         ConsoleHelper.printThinLine();
+        if (paginator.needsPagination()) {
+            paginator.printNavBar();
+        }
     }
 
     private void processRelease(Order order) {

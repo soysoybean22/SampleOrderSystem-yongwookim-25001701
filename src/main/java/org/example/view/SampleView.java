@@ -58,25 +58,42 @@ public final class SampleView {
 
     private void listSamples() {
         List<Sample> samples = controller.findAll();
-        ConsoleHelper.println("");
-        ConsoleHelper.println("[1] 시료 관리 > 시료 목록  (총 " + samples.size() + "종)");
-        ConsoleHelper.printThinLine();
 
         if (samples.isEmpty()) {
+            ConsoleHelper.println("");
+            ConsoleHelper.println("[1] 시료 관리 > 시료 목록  (총 0종)");
+            ConsoleHelper.printThinLine();
             ConsoleHelper.println("  등록된 시료가 없습니다.");
             ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
             return;
         }
 
-        System.out.printf("  %-8s %-22s %10s  %5s  %7s%n",
-            "ID", "이름", "생산시간", "수율", "재고");
-        ConsoleHelper.printThinLine();
-        for (Sample s : samples) {
-            System.out.printf("  %-8s %-22s %7.1f min  %5.2f  %5d ea%n",
-                s.getSampleId(), s.getName(),
-                s.getAvgProductionTime(), s.getYield(), s.getStock());
+        Paginator<Sample> paginator = new Paginator<>(samples);
+
+        while (true) {
+            ConsoleHelper.clearScreen();
+            ConsoleHelper.println("");
+            ConsoleHelper.println("[1] 시료 관리 > 시료 목록  (총 " + samples.size() + "종)");
+            ConsoleHelper.printThinLine();
+            System.out.printf("  %-8s %-22s %10s  %5s  %7s%n", "ID", "이름", "생산시간", "수율", "재고");
+            ConsoleHelper.printThinLine();
+            for (Sample s : paginator.currentItems()) {
+                System.out.printf("  %-8s %-22s %7.1f min  %5.2f  %5d ea%n",
+                    s.getSampleId(), s.getName(),
+                    s.getAvgProductionTime(), s.getYield(), s.getStock());
+            }
+
+            if (!paginator.needsPagination()) {
+                ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
+                return;
+            }
+
+            paginator.printNavBar();
+            String input = ConsoleHelper.readLine("  [P/N] 페이지 이동, [0] 위로 > ");
+            if (input.equals("0"))                return;
+            if (input.equalsIgnoreCase("N"))      paginator.nextPage();
+            else if (input.equalsIgnoreCase("P")) paginator.prevPage();
         }
-        ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
     }
 
     private void searchSample() {
@@ -87,23 +104,38 @@ public final class SampleView {
         String keyword = ConsoleHelper.readLine("검색어 > ");
         List<Sample> result = controller.searchByName(keyword);
 
-        ConsoleHelper.println("");
         if (result.isEmpty()) {
+            ConsoleHelper.println("");
             ConsoleHelper.println("  검색 결과가 없습니다: \"" + keyword + "\"");
             ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
             return;
         }
 
-        ConsoleHelper.println("  검색 결과 (" + result.size() + "건)");
-        ConsoleHelper.printThinLine();
-        System.out.printf("  %-8s %-22s %10s  %5s  %7s%n",
-            "ID", "이름", "생산시간", "수율", "재고");
-        ConsoleHelper.printThinLine();
-        for (Sample s : result) {
-            System.out.printf("  %-8s %-22s %7.1f min  %5.2f  %5d ea%n",
-                s.getSampleId(), s.getName(),
-                s.getAvgProductionTime(), s.getYield(), s.getStock());
+        Paginator<Sample> paginator = new Paginator<>(result);
+
+        while (true) {
+            ConsoleHelper.clearScreen();
+            ConsoleHelper.println("");
+            ConsoleHelper.println("  검색 결과 (" + result.size() + "건)  키워드: \"" + keyword + "\"");
+            ConsoleHelper.printThinLine();
+            System.out.printf("  %-8s %-22s %10s  %5s  %7s%n", "ID", "이름", "생산시간", "수율", "재고");
+            ConsoleHelper.printThinLine();
+            for (Sample s : paginator.currentItems()) {
+                System.out.printf("  %-8s %-22s %7.1f min  %5.2f  %5d ea%n",
+                    s.getSampleId(), s.getName(),
+                    s.getAvgProductionTime(), s.getYield(), s.getStock());
+            }
+
+            if (!paginator.needsPagination()) {
+                ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
+                return;
+            }
+
+            paginator.printNavBar();
+            String input = ConsoleHelper.readLine("  [P/N] 페이지 이동, [0] 위로 > ");
+            if (input.equals("0"))                return;
+            if (input.equalsIgnoreCase("N"))      paginator.nextPage();
+            else if (input.equalsIgnoreCase("P")) paginator.prevPage();
         }
-        ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
     }
 }

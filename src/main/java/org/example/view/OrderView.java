@@ -35,6 +35,7 @@ public final class OrderView {
         if (sampleOpt.isEmpty()) {
             ConsoleHelper.println("");
             ConsoleHelper.println(AnsiColor.color("  ✗ [오류] 등록되지 않은 시료 ID입니다: " + sampleId, AnsiColor.ERROR));
+            ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
             return;
         }
 
@@ -60,6 +61,7 @@ public final class OrderView {
         if (!confirm.equalsIgnoreCase("Y")) {
             ConsoleHelper.println("");
             ConsoleHelper.println(AnsiColor.color("  주문이 취소되었습니다.", AnsiColor.WARN));
+            ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
             return;
         }
 
@@ -70,5 +72,6 @@ public final class OrderView {
         ConsoleHelper.println("  현재 상태  " + AnsiColor.statusBadge(order.getStatus()));
         ConsoleHelper.println("");
         ConsoleHelper.println(AnsiColor.color("  ※ 재고 확인 및 승인은 [3] 주문 승인/거절 메뉴에서 진행하세요.", AnsiColor.WARN));
+        ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
     }
 }

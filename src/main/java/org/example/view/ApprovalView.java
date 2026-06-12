@@ -21,38 +21,52 @@ public final class ApprovalView {
     }
 
     public void run() {
-        ConsoleHelper.clearScreen();
-        ConsoleHelper.println("");
-        ConsoleHelper.printHeader("[3] 주문 승인/거절");
-
         List<Order> reserved = orderController.findReservedOrders();
         if (reserved.isEmpty()) {
+            ConsoleHelper.clearScreen();
+            ConsoleHelper.println("");
+            ConsoleHelper.printHeader("[3] 주문 승인/거절");
             ConsoleHelper.println("  승인 대기 중인 주문이 없습니다.");
             return;
         }
 
-        printReservedList(reserved);
+        Paginator<Order> paginator = new Paginator<>(reserved);
 
-        String input = ConsoleHelper.readLine("승인할 번호 > ");
-        if (input.equals("0")) return;
+        while (true) {
+            ConsoleHelper.clearScreen();
+            ConsoleHelper.println("");
+            ConsoleHelper.printHeader("[3] 주문 승인/거절");
+            printReservedList(paginator.currentItems(), paginator);
 
-        int index;
-        try {
-            index = Integer.parseInt(input) - 1;
-        } catch (NumberFormatException e) {
-            ConsoleHelper.println("  잘못된 입력입니다.");
+            String prompt = paginator.needsPagination()
+                ? "번호 선택 또는 [P/N] 페이지 이동, [0] 위로 > "
+                : "승인할 번호 > ";
+            String input = ConsoleHelper.readLine(prompt);
+
+            if (input.equals("0")) return;
+            if (input.equalsIgnoreCase("N")) { paginator.nextPage(); continue; }
+            if (input.equalsIgnoreCase("P")) { paginator.prevPage(); continue; }
+
+            int index;
+            try {
+                index = Integer.parseInt(input) - 1;
+            } catch (NumberFormatException e) {
+                ConsoleHelper.println("  잘못된 입력입니다.");
+                continue;
+            }
+
+            List<Order> current = paginator.currentItems();
+            if (index < 0 || index >= current.size()) {
+                ConsoleHelper.println("  목록에 없는 번호입니다.");
+                continue;
+            }
+
+            processApproval(current.get(index));
             return;
         }
-
-        if (index < 0 || index >= reserved.size()) {
-            ConsoleHelper.println("  목록에 없는 번호입니다.");
-            return;
-        }
-
-        processApproval(reserved.get(index));
     }
 
-    private void printReservedList(List<Order> orders) {
+    private void printReservedList(List<Order> orders, Paginator<Order> paginator) {
         ConsoleHelper.println("승인 대기 중인 예약 목록 (RESERVED)");
         ConsoleHelper.println("");
         System.out.printf("  %-4s %-22s %-18s %7s%n", "번호", "주문번호", "고객명", "수량");
@@ -69,6 +83,9 @@ public final class ApprovalView {
         }
         ConsoleHelper.println("  [0]  위로");
         ConsoleHelper.printThinLine();
+        if (paginator.needsPagination()) {
+            paginator.printNavBar();
+        }
     }
 
     private void processApproval(Order order) {
