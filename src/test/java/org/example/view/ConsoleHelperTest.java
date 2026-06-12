@@ -156,4 +156,35 @@ class ConsoleHelperTest {
         assertTrue(result.contains("["));
         assertTrue(result.contains("]"));
     }
+
+    @Test
+    @DisplayName("printTableTop()은 ┌ 와 ┐ 를 포함한다")
+    void printTableTop_상단테두리() {
+        ConsoleHelper.printTableTop();
+
+        String output = outContent.toString(StandardCharsets.UTF_8);
+        assertTrue(output.contains("┌"));
+        assertTrue(output.contains("┐"));
+        assertTrue(output.contains("─"));
+    }
+
+    @Test
+    @DisplayName("printTableDivider()는 ├ 와 ┤ 를 포함한다")
+    void printTableDivider_중간구분선() {
+        ConsoleHelper.printTableDivider();
+
+        String output = outContent.toString(StandardCharsets.UTF_8);
+        assertTrue(output.contains("├"));
+        assertTrue(output.contains("┤"));
+    }
+
+    @Test
+    @DisplayName("printTableBottom()은 └ 와 ┘ 를 포함한다")
+    void printTableBottom_하단테두리() {
+        ConsoleHelper.printTableBottom();
+
+        String output = outContent.toString(StandardCharsets.UTF_8);
+        assertTrue(output.contains("└"));
+        assertTrue(output.contains("┘"));
+    }
 }

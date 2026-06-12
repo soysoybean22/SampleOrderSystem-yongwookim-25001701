@@ -365,9 +365,9 @@ public static String progressBar(int ratio) {
 | 6-3 | 재고 상태 색상 (`AnsiColor.stockStatusColored()`) 적용 | 수동 확인 |
 
 **완료 기준:**
-- [ ] Progress Bar 비율 정확성 확인
-- [ ] 여유/부족/고갈 색상 구분 확인
-- [ ] 기존 테스트 전체 통과
+- [x] Progress Bar 비율 정확성 확인
+- [x] 여유/부족/고갈 색상 구분 확인
+- [x] 기존 테스트 전체 통과
 
 ---
 

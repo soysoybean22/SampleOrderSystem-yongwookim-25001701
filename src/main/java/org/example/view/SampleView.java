@@ -74,14 +74,15 @@ public final class SampleView {
             ConsoleHelper.clearScreen();
             ConsoleHelper.println("");
             ConsoleHelper.println("[1] 시료 관리 > 시료 목록  (총 " + samples.size() + "종)");
-            ConsoleHelper.printThinLine();
-            System.out.printf("  %-8s %-22s %10s  %5s  %7s%n", "ID", "이름", "생산시간", "수율", "재고");
-            ConsoleHelper.printThinLine();
+            ConsoleHelper.printTableTop();
+            System.out.printf("│  %-8s %-22s %10s  %5s  %7s  │%n", "ID", "이름", "생산시간", "수율", "재고");
+            ConsoleHelper.printTableDivider();
             for (Sample s : paginator.currentItems()) {
-                System.out.printf("  %-8s %-22s %7.1f min  %5.2f  %5d ea%n",
+                System.out.printf("│  %-8s %-22s %7.1f min  %5.2f  %5d ea│%n",
                     s.getSampleId(), s.getName(),
                     s.getAvgProductionTime(), s.getYield(), s.getStock());
             }
+            ConsoleHelper.printTableBottom();
 
             if (!paginator.needsPagination()) {
                 ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
@@ -117,14 +118,15 @@ public final class SampleView {
             ConsoleHelper.clearScreen();
             ConsoleHelper.println("");
             ConsoleHelper.println("  검색 결과 (" + result.size() + "건)  키워드: \"" + keyword + "\"");
-            ConsoleHelper.printThinLine();
-            System.out.printf("  %-8s %-22s %10s  %5s  %7s%n", "ID", "이름", "생산시간", "수율", "재고");
-            ConsoleHelper.printThinLine();
+            ConsoleHelper.printTableTop();
+            System.out.printf("│  %-8s %-22s %10s  %5s  %7s  │%n", "ID", "이름", "생산시간", "수율", "재고");
+            ConsoleHelper.printTableDivider();
             for (Sample s : paginator.currentItems()) {
-                System.out.printf("  %-8s %-22s %7.1f min  %5.2f  %5d ea%n",
+                System.out.printf("│  %-8s %-22s %7.1f min  %5.2f  %5d ea│%n",
                     s.getSampleId(), s.getName(),
                     s.getAvgProductionTime(), s.getYield(), s.getStock());
             }
+            ConsoleHelper.printTableBottom();
 
             if (!paginator.needsPagination()) {
                 ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");

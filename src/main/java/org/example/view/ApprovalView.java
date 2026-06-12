@@ -70,20 +70,21 @@ public final class ApprovalView {
     private void printReservedList(List<Order> orders, Paginator<Order> paginator) {
         ConsoleHelper.println("승인 대기 중인 예약 목록 (RESERVED)");
         ConsoleHelper.println("");
-        System.out.printf("  %-4s %-22s %-18s %7s%n", "번호", "주문번호", "고객명", "수량");
-        ConsoleHelper.printThinLine();
+        ConsoleHelper.printTableTop();
+        System.out.printf("│  %-4s %-22s %-18s %7s      │%n", "번호", "주문번호", "고객명", "수량");
+        ConsoleHelper.printTableDivider();
         for (int i = 0; i < orders.size(); i++) {
             Order o = orders.get(i);
             String sampleName = sampleController.findAll().stream()
                 .filter(s -> s.getSampleId().equals(o.getSampleId()))
                 .map(Sample::getName)
                 .findFirst().orElse(o.getSampleId());
-            System.out.printf("  [%d]  %-22s %-18s %5d ea%n",
+            System.out.printf("│  [%d]  %-22s %-18s %5d ea     │%n",
                 i + 1, o.getOrderId(), o.getCustomerName(), o.getQuantity());
-            System.out.printf("        시료: %s%n", sampleName);
+            System.out.printf("│        시료: %-50s│%n", sampleName);
         }
-        ConsoleHelper.println("  [0]  위로");
-        ConsoleHelper.printThinLine();
+        System.out.printf("│  %-60s│%n", "[0]  위로");
+        ConsoleHelper.printTableBottom();
         if (paginator.needsPagination()) {
             paginator.printNavBar();
         }

@@ -62,6 +62,14 @@ public final class ConsoleHelper {
         System.out.println();
     }
 
+    public static void printTableTop()                { printTableTop(62); }
+    public static void printTableDivider()            { printTableDivider(62); }
+    public static void printTableBottom()             { printTableBottom(62); }
+
+    public static void printTableTop(int innerWidth)  { System.out.println("┌" + "─".repeat(innerWidth) + "┐"); }
+    public static void printTableDivider(int innerWidth) { System.out.println("├" + "─".repeat(innerWidth) + "┤"); }
+    public static void printTableBottom(int innerWidth)  { System.out.println("└" + "─".repeat(innerWidth) + "┘"); }
+
     public static String progressBar(int ratio) {
         int filled = ratio / 10;
         String bar = "█".repeat(filled) + "░".repeat(10 - filled);
