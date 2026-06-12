@@ -1,6 +1,8 @@
 package org.example;
 
+import org.example.controller.OrderController;
 import org.example.controller.SampleController;
+import org.example.repository.OrderRepository;
 import org.example.repository.SampleRepository;
 import org.example.tool.DataMonitorTool;
 import org.example.tool.DummyDataGenerator;
@@ -20,6 +22,8 @@ public final class Main {
             return;
         }
         SampleController sampleController = new SampleController(new SampleRepository());
-        new MainView(sampleController).run();
+        OrderController orderController = new OrderController(
+            new OrderRepository(), new SampleRepository());
+        new MainView(sampleController, orderController).run();
     }
 }

@@ -1,7 +1,7 @@
 package org.example.view;
 
+import org.example.controller.OrderController;
 import org.example.controller.SampleController;
-import org.example.repository.OrderRepository;
 import org.example.repository.ProductionJobRepository;
 
 import java.time.LocalDateTime;
@@ -12,11 +12,15 @@ public final class MainView {
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private final SampleController sampleController;
+    private final OrderController orderController;
     private final SampleView sampleView;
+    private final OrderView orderView;
 
-    public MainView(SampleController sampleController) {
+    public MainView(SampleController sampleController, OrderController orderController) {
         this.sampleController = sampleController;
+        this.orderController = orderController;
         this.sampleView = new SampleView(sampleController);
+        this.orderView = new OrderView(orderController, sampleController);
     }
 
     public void run() {
@@ -26,7 +30,8 @@ public final class MainView {
             String input = ConsoleHelper.readLine("선택 > ");
             switch (input) {
                 case "1" -> sampleView.run();
-                case "2", "3", "4", "5", "6" -> ConsoleHelper.println("  준비 중인 기능입니다.");
+                case "2" -> orderView.run();
+                case "3", "4", "5", "6" -> ConsoleHelper.println("  준비 중인 기능입니다.");
                 case "0" -> {
                     ConsoleHelper.println("  시스템을 종료합니다.");
                     return;
@@ -39,7 +44,7 @@ public final class MainView {
     private void printSummary() {
         int sampleCount = sampleController.findAll().size();
         int totalStock = sampleController.findAll().stream().mapToInt(s -> s.getStock()).sum();
-        int orderCount = new OrderRepository().findAll().size();
+        int orderCount = orderController.findAllOrders().size();
         int productionCount = new ProductionJobRepository().findAll().size();
 
         ConsoleHelper.println("");
