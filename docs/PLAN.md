@@ -392,7 +392,8 @@ $ java -cp ... org.example.tool.DummyDataGenerator
 |---|------|--------------|
 | 6-1 | `MonitoringController.getOrderSummary()` | 상태별 건수 정확성, REJECTED 제외 |
 | 6-2 | `MonitoringController.getStockStatus()` | 여유/부족/고갈 판단 로직 |
-| 6-3 | `MonitoringView` + `Main` 메뉴 연결 | (수동 확인) |
+| 6-3 | `MonitoringController.getRejectedCount()` | REJECTED 건수 별도 집계 |
+| 6-4 | `MonitoringView` + `Main` 메뉴 연결 | (수동 확인) |
 
 ---
 

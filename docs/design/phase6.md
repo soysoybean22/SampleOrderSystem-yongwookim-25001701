@@ -7,7 +7,7 @@
 
 고객님 확인 포인트:
 - `[4]` 입력 → 모니터링 화면 진입
-- `[1]` 주문량 확인 → 상태별 주문 건수 (REJECTED 제외)
+- `[1]` 주문량 확인 → 상태별 주문 건수 (REJECTED 제외) + 거절 건수 참고용 표시
 - `[2]` 재고량 확인 → 시료별 재고 수량 + 여유/부족/고갈 상태
 - 주문·승인·출고 후 숫자가 정확히 반영되는지 확인
 
@@ -80,6 +80,9 @@ public final class MonitoringController {
     // 반환 순서: RESERVED → CONFIRMED → PRODUCING → RELEASE
     public Map<OrderStatus, Integer> getOrderSummary() { ... }
 
+    // REJECTED 주문 건수 반환 (참고용)
+    public int getRejectedCount() { ... }
+
     // 시료별 재고 상태 목록 반환
     public List<SampleStockInfo> getStockStatus() { ... }
 }
@@ -147,8 +150,10 @@ public final class MonitoringView {
   CONFIRMED   8건
   PRODUCING   3건  ← 생산라인 대기
   RELEASE    18건
-  ─────────────────
+  ─────────────────────
   합계        32건  (REJECTED 제외)
+
+  * 거절된 주문  2건  (참고용)
 ```
 
 **[2] 재고량 확인 화면:**
