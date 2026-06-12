@@ -76,8 +76,10 @@ public final class MainView {
         ConsoleHelper.printSeparator();
         ConsoleHelper.println("시스템 현황  " + LocalDateTime.now().format(FMT));
         ConsoleHelper.println("");
+        int reservedCount = orderController.findReservedOrders().size();
         System.out.printf("등록 시료 %3d종    총 재고 %6d ea%n", sampleCount, totalStock);
-        System.out.printf("전체 주문 %3d건    생산라인 %3d건 대기%n", orderCount, productionCount);
+        System.out.printf("전체 주문 %3d건    생산라인 %3d건 대기    승인 대기 %3d건%n",
+            orderCount, productionCount, reservedCount);
     }
 
     private void printMenu() {
