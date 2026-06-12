@@ -163,9 +163,11 @@ RESERVED ──→ CONFIRMED ──→ RELEASE
 
 ---
 
-## 재고 Progress Bar
+## Progress Bar
 
-모니터링 재고량 확인 화면에서 잔여율을 7단계 색상 막대로 표시합니다.
+### 재고 잔여율 (모니터링 > 재고량 확인)
+
+잔여율을 7단계 색상 막대로 표시합니다.
 
 | 구간 | 색상 |
 |------|------|
@@ -176,6 +178,30 @@ RESERVED ──→ CONFIRMED ──→ RELEASE
 | 60 ~ 79% | YELLOW BOLD |
 | 80 ~ 99% | CYAN |
 | 100% | GREEN |
+
+### 생산 진행률 (생산라인 조회 > 현재 처리 중)
+
+현재 생산 중인 작업의 진행률을 실시간으로 표시합니다.
+
+```
+[ 현재 처리 중 ]
+  주문번호    ORD-20260416-0008
+  시료        산화막 웨이퍼-SiO2 (S-005)
+  주문량      150 ea    현재 재고 0 ea → 부족 150 ea
+  실 생산량   190 ea    총 생산시간 114.0 min
+  진행률      [████████░░]  80%    (91.2 / 114.0 min 경과)
+```
+
+---
+
+## 생산 자동 완료
+
+총 생산시간이 경과하면 메인 메뉴 진입 시 자동으로 완료 처리됩니다.
+
+- 생산 시작 시각(`startedAt`)부터 `totalProductionTime`(분)이 지나면 자동 완료
+- `PRODUCING` → `CONFIRMED` 상태 전환 및 재고 자동 증가
+- 수동 완료(`[1] 생산 완료 처리`)도 계속 지원
+- 대기 중인 다음 작업은 완료 시점부터 생산 시작
 
 ---
 
@@ -203,4 +229,4 @@ docs/               # 설계 문서 (PRD, PLAN, Phase별 설계)
 - [`docs/PRD-고도화.md`](docs/PRD-고도화.md) — UI/UX 고도화 요구사항
 - [`docs/PLAN-고도화.md`](docs/PLAN-고도화.md) — UI/UX 고도화 구현 계획 (Phase 1~10)
 - [`docs/design/`](docs/design/) — 기능 구현 Phase별 설계
-- [`docs/design-고도화/`](docs/design-고도화/) — UI/UX 고도화 Phase별 설계
+- [`docs/design-고도화/`](docs/design-고도화/) — UI/UX 고도화 Phase별 설계 (Phase 1~11)
