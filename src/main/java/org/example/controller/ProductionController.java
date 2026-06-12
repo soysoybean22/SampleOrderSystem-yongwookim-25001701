@@ -7,6 +7,7 @@ import org.example.repository.OrderRepository;
 import org.example.repository.ProductionJobRepository;
 import org.example.repository.SampleRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +33,23 @@ public final class ProductionController {
         return productionJobRepository.findFirst();
     }
 
+    public boolean autoCompleteIfReady() {
+        return autoCompleteIfReady(LocalDateTime.now());
+    }
+
+    boolean autoCompleteIfReady(LocalDateTime now) {
+        Optional<ProductionJob> jobOpt = productionJobRepository.findFirst();
+        if (jobOpt.isEmpty()) return false;
+        if (jobOpt.get().progressRatio(now) < 100) return false;
+        completeProduction(now);
+        return true;
+    }
+
     public ProductionJob completeProduction() {
+        return completeProduction(LocalDateTime.now());
+    }
+
+    ProductionJob completeProduction(LocalDateTime now) {
         ProductionJob job = productionJobRepository.findFirst()
             .orElseThrow(() -> new IllegalStateException("처리할 생산 작업이 없습니다."));
 
@@ -43,6 +60,10 @@ public final class ProductionController {
         sampleRepository.updateStock(job.getSampleId(), newStock);
         orderRepository.updateStatus(job.getOrderId(), OrderStatus.CONFIRMED);
         productionJobRepository.deleteByOrderId(job.getOrderId());
+
+        productionJobRepository.findFirst().ifPresent(next ->
+            productionJobRepository.updateStartedAt(next.getOrderId(), now)
+        );
 
         return job;
     }

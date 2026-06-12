@@ -90,9 +90,12 @@ public final class OrderController {
         int actualQty = (int) Math.ceil(shortage / (sample.getYield() * 0.9));
         double totalTime = sample.getAvgProductionTime() * actualQty;
 
+        LocalDateTime now = LocalDateTime.now();
+        boolean queueEmpty = productionJobRepository.findAll().isEmpty();
+        LocalDateTime startedAt = queueEmpty ? now : null;
         ProductionJob job = new ProductionJob(
             order.getOrderId(), sample.getSampleId(),
-            shortage, actualQty, totalTime, LocalDateTime.now()
+            shortage, actualQty, totalTime, now, startedAt
         );
         productionJobRepository.save(job);
         orderRepository.updateStatus(order.getOrderId(), OrderStatus.PRODUCING);

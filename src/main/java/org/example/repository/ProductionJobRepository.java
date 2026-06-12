@@ -38,14 +38,28 @@ public final class ProductionJobRepository {
         JsonFileStorage.write(FILE, JsonFileStorage.toJsonArray(rows));
     }
 
+    public void updateStartedAt(String orderId, LocalDateTime startedAt) {
+        List<Map<String, String>> rows = JsonFileStorage.parseArray(JsonFileStorage.read(FILE));
+        for (Map<String, String> row : rows) {
+            if (row.get("orderId").equals(orderId)) {
+                row.put("startedAt", startedAt.toString());
+                break;
+            }
+        }
+        JsonFileStorage.write(FILE, JsonFileStorage.toJsonArray(rows));
+    }
+
     private ProductionJob fromMap(Map<String, String> map) {
+        LocalDateTime startedAt = map.containsKey("startedAt")
+            ? LocalDateTime.parse(map.get("startedAt")) : null;
         return new ProductionJob(
             map.get("orderId"),
             map.get("sampleId"),
             Integer.parseInt(map.get("shortage")),
             Integer.parseInt(map.get("actualProductionQty")),
             Double.parseDouble(map.get("totalProductionTime")),
-            LocalDateTime.parse(map.get("enqueuedAt"))
+            LocalDateTime.parse(map.get("enqueuedAt")),
+            startedAt
         );
     }
 
@@ -57,6 +71,9 @@ public final class ProductionJobRepository {
         map.put("actualProductionQty", String.valueOf(job.getActualProductionQty()));
         map.put("totalProductionTime", String.valueOf(job.getTotalProductionTime()));
         map.put("enqueuedAt", job.getEnqueuedAt().toString());
+        if (job.getStartedAt() != null) {
+            map.put("startedAt", job.getStartedAt().toString());
+        }
         return map;
     }
 }

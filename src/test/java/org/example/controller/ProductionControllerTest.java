@@ -10,6 +10,7 @@ import org.junit.jupiter.api.*;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -100,5 +101,35 @@ class ProductionControllerTest {
         productionController.completeProduction();
         assertThrows(IllegalStateException.class,
             () -> productionController.completeProduction());
+    }
+
+    @Test
+    @DisplayName("autoCompleteIfReady()는 큐가 비어 있으면 false를 반환한다")
+    void autoCompleteIfReady_빈큐_false() {
+        productionController.completeProduction();
+
+        boolean result = productionController.autoCompleteIfReady(LocalDateTime.now().plusDays(1));
+
+        assertFalse(result);
+    }
+
+    @Test
+    @DisplayName("autoCompleteIfReady()는 진행률이 100% 미만이면 false를 반환한다")
+    void autoCompleteIfReady_미완료_false() {
+        boolean result = productionController.autoCompleteIfReady(LocalDateTime.now());
+
+        assertFalse(result);
+        assertEquals(1, productionController.getQueue().size());
+    }
+
+    @Test
+    @DisplayName("autoCompleteIfReady()는 생산시간 경과 시 완료 처리 후 true를 반환한다")
+    void autoCompleteIfReady_완료조건_true() {
+        LocalDateTime future = LocalDateTime.now().plusDays(365);
+
+        boolean result = productionController.autoCompleteIfReady(future);
+
+        assertTrue(result);
+        assertEquals(0, productionController.getQueue().size());
     }
 }

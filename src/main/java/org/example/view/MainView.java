@@ -45,6 +45,7 @@ public final class MainView {
 
     public void run() {
         while (true) {
+            productionController.autoCompleteIfReady();
             ConsoleHelper.clearScreen();
             ConsoleHelper.printBanner();
             printSummary();

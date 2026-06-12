@@ -6,6 +6,8 @@ import org.example.model.OrderStatus;
 import org.example.model.ProductionJob;
 import org.example.model.Sample;
 
+import java.time.LocalDateTime;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +56,10 @@ public final class ProductionView {
         int shortage = job.getShortage();
 
         ConsoleHelper.println("");
+        LocalDateTime now = LocalDateTime.now();
+        int ratio = job.progressRatio(now);
+        double elapsed = job.elapsedMinutes(now);
+
         ConsoleHelper.println(AnsiColor.color("[ 현재 처리 중 ]", AnsiColor.MAGENTA + AnsiColor.BOLD));
         System.out.printf("  주문번호    %s%n", job.getOrderId());
         System.out.printf("  시료        %s (%s)%n", sampleName, job.getSampleId());
@@ -61,6 +67,8 @@ public final class ProductionView {
             job.getShortage() + stock, stock, shortage);
         System.out.printf("  실 생산량   %d ea    총 생산시간 %.1f min%n",
             job.getActualProductionQty(), job.getTotalProductionTime());
+        System.out.printf("  진행률      %s  %3d%%    (%.1f / %.1f min 경과)%n",
+            ConsoleHelper.progressBar(ratio), ratio, elapsed, job.getTotalProductionTime());
     }
 
     private void printWaitingQueue(List<ProductionJob> queue) {

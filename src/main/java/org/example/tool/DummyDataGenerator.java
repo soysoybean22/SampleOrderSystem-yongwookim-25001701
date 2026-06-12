@@ -88,7 +88,7 @@ public final class DummyDataGenerator {
     private static void generateProductionJobs() {
         ProductionJobRepository repo = new ProductionJobRepository();
         LocalDateTime base = LocalDateTime.of(2026, 4, 16, 9, 30, 0);
-        repo.save(new ProductionJob("ORD-20260416-0007", "S-003", 170, 206, 164.8, base));
-        repo.save(new ProductionJob("ORD-20260416-0008", "S-005", 150, 190, 114.0, base.plusMinutes(5)));
+        repo.save(new ProductionJob("ORD-20260416-0007", "S-003", 170, 206, 164.8, base, base));
+        repo.save(new ProductionJob("ORD-20260416-0008", "S-005", 150, 190, 114.0, base.plusMinutes(5), null));
     }
 }
