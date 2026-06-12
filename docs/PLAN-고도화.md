@@ -133,8 +133,7 @@ public static void printBanner() {
 
 | 위치 | 동작 |
 |------|------|
-| `Main.main()` 진입 시 | `printBanner()` 1회 출력 |
-| `MainView.run()` 루프 매 반복 | `clearScreen()` 후 요약 출력 |
+| `MainView.run()` 루프 매 반복 | `clearScreen()` → `printBanner()` → 요약 출력 |
 | 각 서브메뉴 `run()` 진입 시 | `clearScreen()` 후 헤더 출력 |
 
 **작업 목록:**
@@ -144,7 +143,7 @@ public static void printBanner() {
 | 2-1 | `ConsoleHelper.clearScreen()` 구현 | 수동 확인 |
 | 2-2 | `ConsoleHelper.printBanner()` 구현 | 수동 확인 |
 | 2-3 | `Main.java` 배너 호출 추가 | 수동 확인 |
-| 2-4 | `MainView` 루프 **첫 번째 반복은 clearScreen 건너뜀** (배너 표시 유지) | 수동 확인 |
+| 2-4 | `MainView` 루프 매 반복 `clearScreen()` + `printBanner()` 출력 | 수동 확인 |
 | 2-5 | 각 서브메뉴 `run()` 진입 시 클리어 적용 | 수동 확인 |
 | 2-6 | `build.gradle.kts` — Windows 배치 스크립트에 `chcp 65001` 자동 삽입 | 수동 확인 |
 

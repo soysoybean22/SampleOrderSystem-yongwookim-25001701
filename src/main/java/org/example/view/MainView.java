@@ -44,12 +44,9 @@ public final class MainView {
     }
 
     public void run() {
-        boolean firstRun = true;
         while (true) {
-            if (!firstRun) {
-                ConsoleHelper.clearScreen();
-            }
-            firstRun = false;
+            ConsoleHelper.clearScreen();
+            ConsoleHelper.printBanner();
             printSummary();
             printMenu();
             String input = ConsoleHelper.readLine("선택 > ");

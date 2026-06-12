@@ -193,10 +193,10 @@ public void run() {
 ```
 [프로그램 시작]
   └─ Main.main()
-       ├─ ConsoleHelper.printBanner()          ← 1회만 출력
        └─ MainView.run()
             └─ [루프]
                  ├─ ConsoleHelper.clearScreen()
+                 ├─ ConsoleHelper.printBanner()   ← 매 반복마다 출력
                  ├─ printSummary()
                  ├─ printMenu()
                  ├─ 입력 "1" ──► SampleView.run()
@@ -204,11 +204,11 @@ public void run() {
                  │                     ├─ ConsoleHelper.clearScreen()
                  │                     ├─ printMenu()
                  │                     └─ 입력 "0" ──► return
-                 │                                      (MainView 루프로 복귀 → clearScreen)
+                 │                                      (MainView 루프로 복귀 → clearScreen + banner)
                  └─ 입력 "0" ──► return (종료)
 ```
 
-**배너는 재출력되지 않는다.** 메인 메뉴로 돌아올 때는 clearScreen 후 `printSummary()`만 출력한다.
+**배너는 메인 메뉴로 돌아올 때마다 항상 최상단에 표시된다.**
 
 ---
 
@@ -250,42 +250,29 @@ public void run() {
 
 ---
 
-## 7. 버그 수정 — 첫 화면에서 배너가 사라지는 문제
+## 7. 배너 항상 표시
 
-### 원인
+### 설계
 
-`Main.main()`에서 `printBanner()` 출력 직후 `MainView.run()` 루프의 첫 번째 반복이
-`clearScreen()`을 호출해 배너를 즉시 지운다.
+배너를 `Main.main()`에서 1회 출력하는 대신, `MainView.run()` 루프 매 반복마다
+`clearScreen()` → `printBanner()` → `printSummary()` 순서로 출력한다.
 
-### 수정
-
-`MainView.run()` 루프에서 **첫 번째 반복에만** clearScreen을 건너뛴다.
+서브메뉴에서 메인으로 복귀할 때도 배너가 항상 최상단에 표시된다.
 
 ```java
-// 변경 전
+// 변경 후
 public void run() {
     while (true) {
         ConsoleHelper.clearScreen();
+        ConsoleHelper.printBanner();   // ← 매 반복 출력
         printSummary();
-        ...
-    }
-}
-
-// 변경 후
-public void run() {
-    boolean firstRun = true;
-    while (true) {
-        if (!firstRun) {
-            ConsoleHelper.clearScreen();
-        }
-        firstRun = false;
-        printSummary();
+        printMenu();
         ...
     }
 }
 ```
 
-**결과:** 배너가 시스템 현황 위에 그대로 표시되고, 두 번째 루프(메뉴 선택 후 복귀)부터 clearScreen이 정상 동작한다.
+`Main.java`에서는 `printBanner()` 호출을 제거한다.
 
 ---
 
