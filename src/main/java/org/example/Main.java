@@ -3,6 +3,7 @@ package org.example;
 import org.example.controller.MonitoringController;
 import org.example.controller.OrderController;
 import org.example.controller.ProductionController;
+import org.example.controller.ReleaseController;
 import org.example.controller.SampleController;
 import org.example.repository.OrderRepository;
 import org.example.repository.ProductionJobRepository;
@@ -32,7 +33,9 @@ public final class Main {
         OrderController orderController = new OrderController(orderRepo, sampleRepo, jobRepo);
         ProductionController productionController = new ProductionController(jobRepo, sampleRepo, orderRepo);
         MonitoringController monitoringController = new MonitoringController(orderRepo, sampleRepo);
+        ReleaseController releaseController = new ReleaseController(orderRepo);
 
-        new MainView(sampleController, orderController, productionController, monitoringController).run();
+        new MainView(sampleController, orderController, productionController,
+            monitoringController, releaseController).run();
     }
 }

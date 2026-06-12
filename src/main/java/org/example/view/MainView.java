@@ -3,6 +3,7 @@ package org.example.view;
 import org.example.controller.MonitoringController;
 import org.example.controller.OrderController;
 import org.example.controller.ProductionController;
+import org.example.controller.ReleaseController;
 import org.example.controller.SampleController;
 
 import java.time.LocalDateTime;
@@ -16,25 +17,30 @@ public final class MainView {
     private final OrderController orderController;
     private final ProductionController productionController;
     private final MonitoringController monitoringController;
+    private final ReleaseController releaseController;
     private final SampleView sampleView;
     private final OrderView orderView;
     private final ApprovalView approvalView;
     private final ProductionView productionView;
     private final MonitoringView monitoringView;
+    private final ReleaseView releaseView;
 
     public MainView(SampleController sampleController,
                     OrderController orderController,
                     ProductionController productionController,
-                    MonitoringController monitoringController) {
+                    MonitoringController monitoringController,
+                    ReleaseController releaseController) {
         this.sampleController = sampleController;
         this.orderController = orderController;
         this.productionController = productionController;
         this.monitoringController = monitoringController;
+        this.releaseController = releaseController;
         this.sampleView = new SampleView(sampleController);
         this.orderView = new OrderView(orderController, sampleController);
         this.approvalView = new ApprovalView(orderController, sampleController);
         this.productionView = new ProductionView(productionController, sampleController);
         this.monitoringView = new MonitoringView(monitoringController);
+        this.releaseView = new ReleaseView(releaseController, sampleController);
     }
 
     public void run() {
@@ -47,7 +53,7 @@ public final class MainView {
                 case "2" -> orderView.run();
                 case "3" -> approvalView.run();
                 case "4" -> monitoringView.run();
-                case "6" -> ConsoleHelper.println("  준비 중인 기능입니다.");
+                case "6" -> releaseView.run();
                 case "5" -> productionView.run();
                 case "0" -> {
                     ConsoleHelper.println("  시스템을 종료합니다.");
