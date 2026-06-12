@@ -59,6 +59,7 @@ public final class MonitoringView {
         ConsoleHelper.println(AnsiColor.color(
             String.format("  * 거절된 주문  %d건  (참고용)", monitoringController.getRejectedCount()),
             AnsiColor.WARN));
+        ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
     }
 
     private void showStockStatus() {
@@ -89,5 +90,6 @@ public final class MonitoringView {
         ConsoleHelper.println("");
         ConsoleHelper.println(AnsiColor.color("  * 미처리 주문 = CONFIRMED + PRODUCING 상태 주문 수량 합계", AnsiColor.WARN));
         ConsoleHelper.println(AnsiColor.color("  * 잔여율 = 재고 / (재고 + 미처리 주문) × 100", AnsiColor.WARN));
+        ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
     }
 }

@@ -64,6 +64,7 @@ public final class SampleView {
 
         if (samples.isEmpty()) {
             ConsoleHelper.println("  등록된 시료가 없습니다.");
+            ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
             return;
         }
 
@@ -75,6 +76,7 @@ public final class SampleView {
                 s.getSampleId(), s.getName(),
                 s.getAvgProductionTime(), s.getYield(), s.getStock());
         }
+        ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
     }
 
     private void searchSample() {
@@ -88,6 +90,7 @@ public final class SampleView {
         ConsoleHelper.println("");
         if (result.isEmpty()) {
             ConsoleHelper.println("  검색 결과가 없습니다: \"" + keyword + "\"");
+            ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
             return;
         }
 
@@ -101,5 +104,6 @@ public final class SampleView {
                 s.getSampleId(), s.getName(),
                 s.getAvgProductionTime(), s.getYield(), s.getStock());
         }
+        ConsoleHelper.readLine("\n  [Enter] 메뉴로 돌아가기");
     }
 }
