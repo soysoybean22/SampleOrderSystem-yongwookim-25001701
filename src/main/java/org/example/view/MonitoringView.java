@@ -42,19 +42,26 @@ public final class MonitoringView {
 
         ConsoleHelper.println("");
         ConsoleHelper.println("[4] 모니터링 > 주문량 확인");
-        ConsoleHelper.printThinLine();
-        ConsoleHelper.println("  상태별 주문 현황");
-        ConsoleHelper.println("");
+        ConsoleHelper.printTableTop();
+        ConsoleHelper.println("│  " + ConsoleHelper.padRight("상태별 주문 현황", 116) + "│");
+        ConsoleHelper.printTableDivider();
 
         for (Map.Entry<OrderStatus, Integer> entry : summary.entrySet()) {
             String suffix = entry.getKey() == OrderStatus.PRODUCING
                 ? AnsiColor.color("  ← 생산라인 대기", AnsiColor.MAGENTA) : "";
-            ConsoleHelper.println("  " + AnsiColor.statusBadge(entry.getKey())
-                + String.format(" %4d건", entry.getValue()) + suffix);
+            int badgeLen = entry.getKey().name().length() + 2;
+            int suffixLen = entry.getKey() == OrderStatus.PRODUCING ? 16 : 0;
+            int trailing = 118 - (2 + badgeLen + 1 + 6 + suffixLen);
+            ConsoleHelper.println("│  " + AnsiColor.statusBadge(entry.getKey())
+                + String.format(" %4d건", entry.getValue()) + suffix
+                + " ".repeat(trailing) + "│");
         }
 
-        ConsoleHelper.println("  ─────────────────────");
-        System.out.printf("  %-12s %4d건  (REJECTED 제외)%n", "합계", total);
+        ConsoleHelper.printTableDivider();
+        ConsoleHelper.println("│  " + ConsoleHelper.padRight("합계", 5)
+            + String.format(" %4d건  (REJECTED 제외)", total)
+            + " ".repeat(88) + "│");
+        ConsoleHelper.printTableBottom();
         ConsoleHelper.println("");
         ConsoleHelper.println(AnsiColor.color(
             String.format("  * 거절된 주문  %d건  (참고용)", monitoringController.getRejectedCount()),
@@ -67,12 +74,14 @@ public final class MonitoringView {
 
         ConsoleHelper.println("");
         ConsoleHelper.println("[4] 모니터링 > 재고량 확인");
-        ConsoleHelper.printThinLine();
-        ConsoleHelper.println("  시료별 재고 현황");
-        ConsoleHelper.println("");
-        System.out.printf("  %-38s %8s %10s  %-4s  %5s%n",
-            "시료명", "재고", "미처리주문", "상태", "잔여율");
-        ConsoleHelper.printThinLine();
+        ConsoleHelper.printTableTop();
+        ConsoleHelper.println("│  " + ConsoleHelper.padRight("시료명", 38)
+            + " " + ConsoleHelper.padRight("재고", 9)
+            + " " + ConsoleHelper.padRight("미처리주문", 11)
+            + "  " + ConsoleHelper.padRight("상태", 4)
+            + "  " + ConsoleHelper.padRight("잔여율", 18)
+            + " ".repeat(30) + "│");
+        ConsoleHelper.printTableDivider();
 
         for (SampleStockInfo info : stockList) {
             int stock = info.getSample().getStock();
@@ -80,14 +89,16 @@ public final class MonitoringView {
             int total = stock + pending;
             int ratio = total == 0 ? 100 : (int) (stock * 100.0 / total);
 
-            ConsoleHelper.println(String.format("  %s %6d ea %8d ea  %-10s  %s  %3d%%",
+            String dataLine = String.format("  %s %6d ea %8d ea  %-10s  %s  %3d%%",
                 ConsoleHelper.padRight(info.getSample().getName(), 38),
                 stock, pending,
                 AnsiColor.stockStatusColored(info.getStatus()),
                 ConsoleHelper.progressBar(ratio),
-                ratio));
+                ratio);
+            ConsoleHelper.println("│" + dataLine + " ".repeat(30) + "│");
         }
 
+        ConsoleHelper.printTableBottom();
         ConsoleHelper.println("");
         ConsoleHelper.println(AnsiColor.color("  * 미처리 주문 = CONFIRMED + PRODUCING 상태 주문 수량 합계", AnsiColor.WARN));
         ConsoleHelper.println(AnsiColor.color("  * 잔여율 = 재고 / (재고 + 미처리 주문) × 100", AnsiColor.WARN));
