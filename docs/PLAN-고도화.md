@@ -420,7 +420,7 @@ public static String progressBar(int ratio) {
 - [x] Phase 5 — 페이지네이션
 - [x] Phase 6 — Progress Bar
 - [x] Phase 7 — 표 테두리
-- [ ] Phase 8 — 뒤로가기 입력 통일
+- [x] Phase 8 — 뒤로가기 입력 통일
 - [ ] Phase 9 — CMD 가로 너비 확장
 - [ ] Phase 10 — 추가 화면 표 테두리
 
