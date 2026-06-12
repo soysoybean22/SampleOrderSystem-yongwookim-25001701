@@ -7,7 +7,12 @@ import java.util.*;
 
 public final class JsonFileStorage {
 
-    static String DATA_DIR = "data"; // package-private: 테스트에서 오버라이드 가능
+    static String DATA_DIR = "data"; // package-private: 같은 패키지 테스트에서 직접 접근
+
+    /** 다른 패키지 테스트에서 데이터 디렉터리를 변경할 때 사용 */
+    public static void setDataDir(String dir) {
+        DATA_DIR = dir;
+    }
 
     private JsonFileStorage() {}
 

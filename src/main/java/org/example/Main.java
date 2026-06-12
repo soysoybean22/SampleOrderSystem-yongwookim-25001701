@@ -1,7 +1,10 @@
 package org.example;
 
+import org.example.controller.SampleController;
+import org.example.repository.SampleRepository;
 import org.example.tool.DataMonitorTool;
 import org.example.tool.DummyDataGenerator;
+import org.example.view.MainView;
 
 public final class Main {
 
@@ -16,7 +19,7 @@ public final class Main {
             }
             return;
         }
-        // Phase 2 이후: 메인 메뉴 루프 추가 예정
-        System.out.println("사용법: monitor | dummy");
+        SampleController sampleController = new SampleController(new SampleRepository());
+        new MainView(sampleController).run();
     }
 }
