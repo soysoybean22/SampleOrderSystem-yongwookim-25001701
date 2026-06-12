@@ -70,13 +70,13 @@ public final class ProductionView {
             ConsoleHelper.println("  대기 중인 작업이 없습니다.");
             return;
         }
-        System.out.printf("  %-4s %-22s %-22s %7s %8s %10s%n",
-            "순서", "주문번호", "시료명", "부족분", "실생산량", "총생산시간");
+        System.out.printf("  %-4s %-22s %s %7s %8s %10s%n",
+            "순서", "주문번호", ConsoleHelper.padRight("시료명", 40), "부족분", "실생산량", "총생산시간");
         ConsoleHelper.printThinLine();
         for (int i = 1; i < queue.size(); i++) {
             ProductionJob j = queue.get(i);
-            System.out.printf("  %-4d %-22s %-22s %5d ea %6d ea %7.1f min%n",
-                i, j.getOrderId(), resolveSampleName(j.getSampleId()),
+            System.out.printf("  %-4d %-22s %s %5d ea %6d ea %7.1f min%n",
+                i, j.getOrderId(), ConsoleHelper.padRight(resolveSampleName(j.getSampleId()), 40),
                 j.getShortage(), j.getActualProductionQty(), j.getTotalProductionTime());
         }
     }

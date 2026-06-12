@@ -72,24 +72,24 @@ public final class ReleaseView {
     private void printConfirmedList(List<Order> orders, Paginator<Order> paginator) {
         ConsoleHelper.println("출고 가능 주문 (CONFIRMED)");
         ConsoleHelper.println("");
-        ConsoleHelper.printTableTop(80);
+        ConsoleHelper.printTableTop();
         ConsoleHelper.println("│  " + ConsoleHelper.padRight("번호", 5)
             + ConsoleHelper.padRight("주문번호", 22)
-            + " " + ConsoleHelper.padRight("시료명", 22)
-            + " " + ConsoleHelper.padRight("고객명", 18)
-            + " " + ConsoleHelper.padRight("수량", 8) + "│");
-        ConsoleHelper.printTableDivider(80);
+            + " " + ConsoleHelper.padRight("시료명", 36)
+            + " " + ConsoleHelper.padRight("고객명", 36)
+            + " " + ConsoleHelper.padRight("수량", 8) + "       │");
+        ConsoleHelper.printTableDivider();
         for (int i = 0; i < orders.size(); i++) {
             Order o = orders.get(i);
             String sampleName = resolveSampleName(o.getSampleId());
-            System.out.printf("│  [%d]  %-22s %s %s %5d ea│%n",
+            System.out.printf("│  [%d]  %-22s %s %s %5d ea       │%n",
                 i + 1, o.getOrderId(),
-                ConsoleHelper.padRight(sampleName, 22),
-                ConsoleHelper.padRight(o.getCustomerName(), 18),
+                ConsoleHelper.padRight(sampleName, 36),
+                ConsoleHelper.padRight(o.getCustomerName(), 36),
                 o.getQuantity());
         }
-        ConsoleHelper.println("│  " + ConsoleHelper.padRight("[0]  위로", 78) + "│");
-        ConsoleHelper.printTableBottom(80);
+        ConsoleHelper.println("│  " + ConsoleHelper.padRight("[0]  위로", 116) + "│");
+        ConsoleHelper.printTableBottom();
         if (paginator.needsPagination()) {
             paginator.printNavBar();
         }

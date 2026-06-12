@@ -6,8 +6,8 @@ import java.util.Scanner;
 public final class ConsoleHelper {
 
     private static final Scanner SCANNER = new Scanner(System.in, StandardCharsets.UTF_8);
-    private static final String SEPARATOR = "=".repeat(64);
-    private static final String THIN_LINE = "-".repeat(64);
+    private static final String SEPARATOR = "=".repeat(120);
+    private static final String THIN_LINE = "-".repeat(120);
 
     private ConsoleHelper() {}
 
@@ -78,9 +78,9 @@ public final class ConsoleHelper {
             || (c >= '⺀' && c <= '鿿');
     }
 
-    public static void printTableTop()                { printTableTop(62); }
-    public static void printTableDivider()            { printTableDivider(62); }
-    public static void printTableBottom()             { printTableBottom(62); }
+    public static void printTableTop()                { printTableTop(118); }
+    public static void printTableDivider()            { printTableDivider(118); }
+    public static void printTableBottom()             { printTableBottom(118); }
 
     public static void printTableTop(int innerWidth)  { System.out.println("┌" + "─".repeat(innerWidth) + "┐"); }
     public static void printTableDivider(int innerWidth) { System.out.println("├" + "─".repeat(innerWidth) + "┤"); }
@@ -107,14 +107,14 @@ public final class ConsoleHelper {
 
     public static void printBanner() {
         String art = """
-              ____       ____                 _
-             / ___|     / ___|  ___ _ __ ___ (_)
-             \\___ \\ ____\\___ \\ / _ \\ '_ ` _ \\| |
-              ___) |_____|__) |  __/ | | | | | |
-             |____/     |____/ \\___|_| |_| |_|_|
-            """;
+                                        ____       ____                 _
+                                       / ___|     / ___|  ___ _ __ ___ (_)
+                                       \\___ \\ ____\\___ \\ / _ \\ '_ ` _ \\| |
+                                        ___) |_____|__) |  __/ | | | | | |
+                                       |____/     |____/ \\___|_| |_| |_|_|
+                                      """;
         System.out.println(AnsiColor.color(art, AnsiColor.CYAN + AnsiColor.BOLD));
-        System.out.println("        반도체 시료 생산주문관리 시스템");
+        System.out.println("                                        반도체 시료 생산주문관리 시스템");
         printSeparator();
     }
 }

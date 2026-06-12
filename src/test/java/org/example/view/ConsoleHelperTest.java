@@ -179,6 +179,35 @@ class ConsoleHelperTest {
     }
 
     @Test
+    @DisplayName("printSeparator()는 120자 = 구분선을 출력한다")
+    void printSeparator_120자() {
+        ConsoleHelper.printSeparator();
+
+        String output = outContent.toString(StandardCharsets.UTF_8).trim();
+        assertEquals(120, output.length());
+        assertTrue(output.chars().allMatch(c -> c == '='));
+    }
+
+    @Test
+    @DisplayName("printThinLine()은 120자 - 구분선을 출력한다")
+    void printThinLine_120자() {
+        ConsoleHelper.printThinLine();
+
+        String output = outContent.toString(StandardCharsets.UTF_8).trim();
+        assertEquals(120, output.length());
+        assertTrue(output.chars().allMatch(c -> c == '-'));
+    }
+
+    @Test
+    @DisplayName("printTableTop()은 기본 내부 너비 118로 전체 120자를 출력한다")
+    void printTableTop_기본너비_120자() {
+        ConsoleHelper.printTableTop();
+
+        String output = outContent.toString(StandardCharsets.UTF_8).trim();
+        assertEquals(120, output.length());
+    }
+
+    @Test
     @DisplayName("printTableTop()은 ┌ 와 ┐ 를 포함한다")
     void printTableTop_상단테두리() {
         ConsoleHelper.printTableTop();

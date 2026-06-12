@@ -70,7 +70,7 @@ public final class MonitoringView {
         ConsoleHelper.printThinLine();
         ConsoleHelper.println("  시료별 재고 현황");
         ConsoleHelper.println("");
-        System.out.printf("  %-24s %8s %10s  %-4s  %5s%n",
+        System.out.printf("  %-38s %8s %10s  %-4s  %5s%n",
             "시료명", "재고", "미처리주문", "상태", "잔여율");
         ConsoleHelper.printThinLine();
 
@@ -80,8 +80,8 @@ public final class MonitoringView {
             int total = stock + pending;
             int ratio = total == 0 ? 100 : (int) (stock * 100.0 / total);
 
-            ConsoleHelper.println(String.format("  %-24s %6d ea %8d ea  %-10s  %s  %3d%%",
-                info.getSample().getName(),
+            ConsoleHelper.println(String.format("  %s %6d ea %8d ea  %-10s  %s  %3d%%",
+                ConsoleHelper.padRight(info.getSample().getName(), 38),
                 stock, pending,
                 AnsiColor.stockStatusColored(info.getStatus()),
                 ConsoleHelper.progressBar(ratio),

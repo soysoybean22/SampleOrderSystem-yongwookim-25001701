@@ -89,9 +89,9 @@ public final class MainView {
     private void printMenu() {
         String n0 = AnsiColor.color("[0]", AnsiColor.RED);
         ConsoleHelper.printThinLine();
-        ConsoleHelper.println("  " + AnsiColor.menuNum("1") + " 시료 관리          " + AnsiColor.menuNum("2") + " 시료 주문");
-        ConsoleHelper.println("  " + AnsiColor.menuNum("3") + " 주문 승인/거절     " + AnsiColor.menuNum("4") + " 모니터링");
-        ConsoleHelper.println("  " + AnsiColor.menuNum("5") + " 생산라인 조회      " + AnsiColor.menuNum("6") + " 출고 처리");
+        ConsoleHelper.println("  " + AnsiColor.menuNum("1") + " 시료 관리                         " + AnsiColor.menuNum("2") + " 시료 주문");
+        ConsoleHelper.println("  " + AnsiColor.menuNum("3") + " 주문 승인/거절                    " + AnsiColor.menuNum("4") + " 모니터링");
+        ConsoleHelper.println("  " + AnsiColor.menuNum("5") + " 생산라인 조회                     " + AnsiColor.menuNum("6") + " 출고 처리");
         ConsoleHelper.println("  " + n0 + " 종료");
         ConsoleHelper.printThinLine();
     }
