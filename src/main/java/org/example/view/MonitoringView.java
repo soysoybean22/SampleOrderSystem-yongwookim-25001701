@@ -78,12 +78,13 @@ public final class MonitoringView {
             int stock = info.getSample().getStock();
             int pending = info.getPendingQuantity();
             int total = stock + pending;
-            int ratio = total == 0 ? 0 : (int) (stock * 100.0 / total);
+            int ratio = total == 0 ? 100 : (int) (stock * 100.0 / total);
 
-            ConsoleHelper.println(String.format("  %-24s %6d ea %8d ea  %-10s  %4d%%",
+            ConsoleHelper.println(String.format("  %-24s %6d ea %8d ea  %-10s  %s  %3d%%",
                 info.getSample().getName(),
                 stock, pending,
                 AnsiColor.stockStatusColored(info.getStatus()),
+                ConsoleHelper.progressBar(ratio),
                 ratio));
         }
 

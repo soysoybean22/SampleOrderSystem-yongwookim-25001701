@@ -62,6 +62,15 @@ public final class ConsoleHelper {
         System.out.println();
     }
 
+    public static String progressBar(int ratio) {
+        int filled = ratio / 10;
+        String bar = "█".repeat(filled) + "░".repeat(10 - filled);
+        String color = ratio == 0   ? AnsiColor.RED
+                     : ratio < 60  ? AnsiColor.YELLOW
+                     : AnsiColor.GREEN;
+        return AnsiColor.color("[" + bar + "]", color);
+    }
+
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();

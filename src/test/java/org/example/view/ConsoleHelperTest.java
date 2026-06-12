@@ -91,4 +91,49 @@ class ConsoleHelperTest {
         String output = outContent.toString(StandardCharsets.UTF_8);
         assertTrue(output.contains("테스트 헤더"));
     }
+
+    @Test
+    @DisplayName("progressBar(0)은 전체 빈 막대를 RED로 출력한다")
+    void progressBar_0_전체빈막대_RED() {
+        String result = ConsoleHelper.progressBar(0);
+
+        assertTrue(result.contains("░░░░░░░░░░"));
+        assertTrue(result.contains(AnsiColor.RED));
+    }
+
+    @Test
+    @DisplayName("progressBar(100)은 전체 채워진 막대를 GREEN으로 출력한다")
+    void progressBar_100_전체채워짐_GREEN() {
+        String result = ConsoleHelper.progressBar(100);
+
+        assertTrue(result.contains("██████████"));
+        assertTrue(result.contains(AnsiColor.GREEN));
+    }
+
+    @Test
+    @DisplayName("progressBar(50)은 절반 채워진 막대를 YELLOW로 출력한다")
+    void progressBar_50_절반채워짐_YELLOW() {
+        String result = ConsoleHelper.progressBar(50);
+
+        assertTrue(result.contains("█████░░░░░"));
+        assertTrue(result.contains(AnsiColor.YELLOW));
+    }
+
+    @Test
+    @DisplayName("progressBar(60)은 6칸 채워진 막대를 GREEN으로 출력한다")
+    void progressBar_60_GREEN_경계값() {
+        String result = ConsoleHelper.progressBar(60);
+
+        assertTrue(result.contains("██████░░░░"));
+        assertTrue(result.contains(AnsiColor.GREEN));
+    }
+
+    @Test
+    @DisplayName("progressBar()는 대괄호로 막대를 감싼다")
+    void progressBar_대괄호로_감싼다() {
+        String result = ConsoleHelper.progressBar(50);
+
+        assertTrue(result.contains("["));
+        assertTrue(result.contains("]"));
+    }
 }
