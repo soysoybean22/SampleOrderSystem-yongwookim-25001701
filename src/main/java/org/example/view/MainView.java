@@ -1,9 +1,8 @@
 package org.example.view;
 
 import org.example.controller.OrderController;
+import org.example.controller.ProductionController;
 import org.example.controller.SampleController;
-import org.example.repository.ProductionJobRepository;
-import org.example.model.Sample;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,16 +13,22 @@ public final class MainView {
 
     private final SampleController sampleController;
     private final OrderController orderController;
+    private final ProductionController productionController;
     private final SampleView sampleView;
     private final OrderView orderView;
     private final ApprovalView approvalView;
+    private final ProductionView productionView;
 
-    public MainView(SampleController sampleController, OrderController orderController) {
+    public MainView(SampleController sampleController,
+                    OrderController orderController,
+                    ProductionController productionController) {
         this.sampleController = sampleController;
         this.orderController = orderController;
+        this.productionController = productionController;
         this.sampleView = new SampleView(sampleController);
         this.orderView = new OrderView(orderController, sampleController);
         this.approvalView = new ApprovalView(orderController, sampleController);
+        this.productionView = new ProductionView(productionController, sampleController);
     }
 
     public void run() {
@@ -35,7 +40,8 @@ public final class MainView {
                 case "1" -> sampleView.run();
                 case "2" -> orderView.run();
                 case "3" -> approvalView.run();
-                case "4", "5", "6" -> ConsoleHelper.println("  준비 중인 기능입니다.");
+                case "4", "6" -> ConsoleHelper.println("  준비 중인 기능입니다.");
+                case "5" -> productionView.run();
                 case "0" -> {
                     ConsoleHelper.println("  시스템을 종료합니다.");
                     return;
@@ -49,7 +55,7 @@ public final class MainView {
         int sampleCount = sampleController.findAll().size();
         int totalStock = sampleController.findAll().stream().mapToInt(s -> s.getStock()).sum();
         int orderCount = orderController.findAllOrders().size();
-        int productionCount = new ProductionJobRepository().findAll().size();
+        int productionCount = productionController.getQueue().size();
 
         ConsoleHelper.println("");
         ConsoleHelper.printSeparator();

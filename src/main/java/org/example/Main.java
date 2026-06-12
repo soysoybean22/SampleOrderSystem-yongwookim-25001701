@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.controller.OrderController;
+import org.example.controller.ProductionController;
 import org.example.controller.SampleController;
 import org.example.repository.OrderRepository;
 import org.example.repository.ProductionJobRepository;
@@ -22,9 +23,14 @@ public final class Main {
             }
             return;
         }
-        SampleController sampleController = new SampleController(new SampleRepository());
-        OrderController orderController = new OrderController(
-            new OrderRepository(), new SampleRepository(), new ProductionJobRepository());
-        new MainView(sampleController, orderController).run();
+        SampleRepository sampleRepo = new SampleRepository();
+        OrderRepository orderRepo = new OrderRepository();
+        ProductionJobRepository jobRepo = new ProductionJobRepository();
+
+        SampleController sampleController = new SampleController(sampleRepo);
+        OrderController orderController = new OrderController(orderRepo, sampleRepo, jobRepo);
+        ProductionController productionController = new ProductionController(jobRepo, sampleRepo, orderRepo);
+
+        new MainView(sampleController, orderController, productionController).run();
     }
 }
